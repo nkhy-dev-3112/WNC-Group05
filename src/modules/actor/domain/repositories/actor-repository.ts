@@ -7,7 +7,7 @@ export abstract class ActorRepository {
     firstName: string | undefined,
     lastName: string | undefined,
     lastUpdate: Date,
-  ): Promise<void>;
+  ): Promise<boolean>;
 
   public abstract get(actorId: number): Promise<ActorModel | undefined>;
   public abstract getList(): Promise<ActorModel[] | undefined>;

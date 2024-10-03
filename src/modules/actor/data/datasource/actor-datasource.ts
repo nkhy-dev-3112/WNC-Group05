@@ -25,4 +25,25 @@ export class ActorDatasource {
     const actors = await this.actorRepository.find();
     return actors.map((actor) => actor.toModel());
   }
+
+  public async update(
+    actor: ActorModel,
+    firstName: string | undefined,
+    lastName: string | undefined,
+    lastUpdate: Date,
+  ): Promise<boolean> {
+    const data = {
+      ...(firstName !== undefined && { first_name: firstName }),
+      ...(lastName !== undefined && { last_name: lastName }),
+    };
+
+    if (Object.keys(data).length > 0) {
+      await this.actorRepository.update(actor.id, {
+        ...data,
+        last_update: lastUpdate,
+      });
+      return true;
+    }
+    return false;
+  }
 }

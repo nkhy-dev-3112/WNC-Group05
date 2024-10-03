@@ -12,13 +12,18 @@ export class ActorRepositoryImpl extends ActorRepository {
   public create(actor: ActorModel): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  public update(
+  public async update(
     actor: ActorModel,
     firstName: string | undefined,
     lastName: string | undefined,
     lastUpdate: Date,
-  ): Promise<void> {
-    throw new Error('Method not implemented.');
+  ): Promise<boolean> {
+    return await this.actorDatasource.update(
+      actor,
+      firstName,
+      lastName,
+      lastUpdate,
+    );
   }
   public async get(actorId: number): Promise<ActorModel | undefined> {
     return await this.actorDatasource.get(actorId);
