@@ -1,16 +1,19 @@
-import { PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
+  @ApiProperty()
   @IsInt()
   actor_id!: number;
 
+  @ApiProperty()
   @IsString()
   @Length(1, 45, {
     message: 'First name must be between 1 and 45 characters long.',
   })
   first_name: string;
 
+  @ApiProperty()
   @IsString()
   @Length(1, 45, {
     message: 'Last name must be between 1 and 45 characters long.',
@@ -20,6 +23,7 @@ export class ActorDto {
 
 export class GetActorParamDto {
   @IsString()
+  @ApiProperty()
   actor_id!: number;
 }
 

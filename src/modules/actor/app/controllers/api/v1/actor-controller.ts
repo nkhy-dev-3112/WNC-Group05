@@ -19,7 +19,9 @@ import { GetActorListUsecase } from '../../../../domain/usecases/get-actor-list-
 import { UpdateActorUsecase } from '../../../../domain/usecases/update-actor-usecase';
 import { CreateActorUsecase } from '../../../../domain/usecases/create-actor-usecase';
 import { DeleteActorUsecase } from '../../../../domain/usecases/delete-actor-usecase';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Actor')
 @Controller({ path: 'api/actor/v1/me' })
 export class ActorController {
   constructor(

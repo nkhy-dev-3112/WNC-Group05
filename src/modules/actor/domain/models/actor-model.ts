@@ -1,7 +1,16 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class ActorModel {
+  @ApiProperty({ name: 'actor_id' })
   public readonly actorId: number;
+
+  @ApiProperty({ name: 'first_name' })
   public readonly firstName: string;
+
+  @ApiProperty({ name: 'last_name' })
   public readonly lastName: string;
+
+  @ApiProperty({ name: 'last_update' })
   public readonly lastUpdate: Date;
 
   constructor(
