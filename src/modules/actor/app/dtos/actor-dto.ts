@@ -27,3 +27,8 @@ export class UpdateActorDto extends PickType(ActorDto, [
   'first_name',
   'last_name',
 ]) {}
+
+export class CreateActorDto extends PickType(ActorDto, [
+  'first_name',
+  'last_name',
+]) {}

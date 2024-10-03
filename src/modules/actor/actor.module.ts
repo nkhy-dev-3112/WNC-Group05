@@ -9,6 +9,7 @@ import { ActorDatasource } from './data/datasource/actor-datasource';
 import { GetActorUsecase } from './domain/usecases/get-actor-usecase';
 import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
 import { UpdateActorUsecase } from './domain/usecases/update-actor-usecase';
+import { CreateActorUsecase } from './domain/usecases/create-actor-usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ActorEntity])],
@@ -22,6 +23,7 @@ import { UpdateActorUsecase } from './domain/usecases/update-actor-usecase';
     GetActorUsecase,
     GetActorListUsecase,
     UpdateActorUsecase,
+    CreateActorUsecase,
   ],
 })
 export class ActorModule {}

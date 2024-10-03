@@ -6,7 +6,11 @@ import { ActorModel } from '../models/actor-model';
 export class GetActorUsecase {
   constructor(private readonly actorRepository: ActorRepository) {}
 
-  public async call(actorId: number): Promise<ActorModel | undefined> {
-    return this.actorRepository.get(actorId);
+  public async call(
+    actorId: number | undefined,
+    firstName: string | undefined,
+    lastName: string | undefined,
+  ): Promise<ActorModel | undefined> {
+    return this.actorRepository.get(actorId, firstName, lastName);
   }
 }

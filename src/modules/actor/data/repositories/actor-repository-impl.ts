@@ -9,8 +9,8 @@ export class ActorRepositoryImpl extends ActorRepository {
     super();
   }
 
-  public create(actor: ActorModel): Promise<void> {
-    throw new Error('Method not implemented.');
+  public async create(actor: ActorModel): Promise<void> {
+    await this.actorDatasource.create(actor);
   }
   public async update(
     actor: ActorModel,
@@ -25,10 +25,17 @@ export class ActorRepositoryImpl extends ActorRepository {
       lastUpdate,
     );
   }
-  public async get(actorId: number): Promise<ActorModel | undefined> {
-    return await this.actorDatasource.get(actorId);
+  public async get(
+    actorId: number | undefined,
+    firstName: string | undefined,
+    lastName: string | undefined,
+  ): Promise<ActorModel | undefined> {
+    return await this.actorDatasource.get(actorId, firstName, lastName);
   }
   public async getList(): Promise<ActorModel[] | undefined> {
     return await this.actorDatasource.getList();
+  }
+  public async getMaxId(): Promise<number> {
+    return await this.actorDatasource.getMaxId();
   }
 }

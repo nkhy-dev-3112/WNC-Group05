@@ -9,6 +9,11 @@ export abstract class ActorRepository {
     lastUpdate: Date,
   ): Promise<boolean>;
 
-  public abstract get(actorId: number): Promise<ActorModel | undefined>;
+  public abstract get(
+    actorId: number | undefined,
+    firstName: string | undefined,
+    lastName: string | undefined,
+  ): Promise<ActorModel | undefined>;
   public abstract getList(): Promise<ActorModel[] | undefined>;
+  public abstract getMaxId(): Promise<number>;
 }
