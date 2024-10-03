@@ -20,4 +20,9 @@ export class ActorDatasource {
       })
     )?.toModel();
   }
+
+  public async getList(): Promise<ActorModel[] | undefined> {
+    const actors = await this.actorRepository.find();
+    return actors.map((actor) => actor.toModel());
+  }
 }

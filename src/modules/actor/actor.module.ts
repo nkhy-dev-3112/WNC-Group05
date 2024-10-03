@@ -7,6 +7,7 @@ import { ActorRepository } from './domain/repositories/actor-repository';
 import { ActorRepositoryImpl } from './data/repositories/actor-repository-impl';
 import { ActorDatasource } from './data/datasource/actor-datasource';
 import { GetActorUsecase } from './domain/usecases/get-actor-usecase';
+import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ActorEntity])],
@@ -18,6 +19,7 @@ import { GetActorUsecase } from './domain/usecases/get-actor-usecase';
     },
     ActorDatasource,
     GetActorUsecase,
+    GetActorListUsecase,
   ],
 })
 export class ActorModule {}

@@ -23,7 +23,7 @@ export class ActorRepositoryImpl extends ActorRepository {
   public async get(actorId: number): Promise<ActorModel | undefined> {
     return await this.actorDatasource.get(actorId);
   }
-  public getList(): Promise<ActorModel[] | undefined> {
-    throw new Error('Method not implemented.');
+  public async getList(): Promise<ActorModel[] | undefined> {
+    return await this.actorDatasource.getList();
   }
 }

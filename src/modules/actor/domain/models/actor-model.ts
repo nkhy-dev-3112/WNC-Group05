@@ -21,7 +21,7 @@ export class ActorModel {
       id: this.id,
       first_name: this.firstName,
       last_name: this.lastName,
-      last_update: this.lastName,
+      last_update: this.lastUpdate,
     };
   }
 }
