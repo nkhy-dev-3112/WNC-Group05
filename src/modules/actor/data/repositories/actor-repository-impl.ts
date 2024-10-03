@@ -38,4 +38,7 @@ export class ActorRepositoryImpl extends ActorRepository {
   public async getMaxId(): Promise<number> {
     return await this.actorDatasource.getMaxId();
   }
+  public async delete(actor: ActorModel): Promise<boolean> {
+    return await this.actorDatasource.delete(actor);
+  }
 }

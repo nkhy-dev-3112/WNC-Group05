@@ -16,4 +16,5 @@ export abstract class ActorRepository {
   ): Promise<ActorModel | undefined>;
   public abstract getList(): Promise<ActorModel[] | undefined>;
   public abstract getMaxId(): Promise<number>;
+  public abstract delete(actor: ActorModel): Promise<boolean>;
 }

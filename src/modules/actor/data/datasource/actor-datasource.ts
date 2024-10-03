@@ -77,4 +77,9 @@ export class ActorDatasource {
     }
     return false;
   }
+
+  public async delete(actor: ActorModel): Promise<boolean> {
+    const result = await this.actorRepository.delete(actor.id);
+    return result.affected > 0;
+  }
 }

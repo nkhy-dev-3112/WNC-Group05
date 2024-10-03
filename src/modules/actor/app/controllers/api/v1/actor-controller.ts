@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { GetActorUsecase } from '../../../../domain/usecases/get-actor-usecase';
 import { Response } from 'express';
 import {
@@ -9,6 +18,7 @@ import {
 import { GetActorListUsecase } from '../../../../domain/usecases/get-actor-list-usecase';
 import { UpdateActorUsecase } from '../../../../domain/usecases/update-actor-usecase';
 import { CreateActorUsecase } from '../../../../domain/usecases/create-actor-usecase';
+import { DeleteActorUsecase } from '../../../../domain/usecases/delete-actor-usecase';
 
 @Controller({ path: 'api/actor/v1/me' })
 export class ActorController {
@@ -17,6 +27,7 @@ export class ActorController {
     private readonly getActorListUsecase: GetActorListUsecase,
     private readonly updateActorUsecase: UpdateActorUsecase,
     private readonly createActorUsecase: CreateActorUsecase,
+    private readonly deleteActorUsecase: DeleteActorUsecase,
   ) {}
 
   /**
@@ -73,8 +84,12 @@ export class ActorController {
       res.status(400).json({ message: 'Actor not found' });
     }
 
-    await this.updateActorUsecase.call(actor, body.first_name, body.last_name);
-    res.json(true);
+    const result = await this.updateActorUsecase.call(
+      actor,
+      body.first_name,
+      body.last_name,
+    );
+    res.json(result);
   }
 
   /**
@@ -88,5 +103,25 @@ export class ActorController {
       body.last_name,
     );
     res.json(actor.toJson());
+  }
+
+  /**
+   * Delete actor
+   */
+  @Delete('id/:actor_id')
+  async delete(@Param() param: GetActorParamDto, @Res() res: Response) {
+    const actor = await this.getActorUsecase.call(
+      param.actor_id,
+      undefined,
+      undefined,
+    );
+
+    if (!actor) {
+      res.status(400).json({ message: 'Actor not found' });
+      return;
+    }
+
+    const result = await this.deleteActorUsecase.call(actor);
+    res.json(result);
   }
 }
