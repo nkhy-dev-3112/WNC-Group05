@@ -1,16 +1,16 @@
 export class ActorModel {
-  public readonly id: number;
+  public readonly actorId: number;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly lastUpdate: Date;
 
   constructor(
-    id: number,
+    actorId: number,
     firstName: string,
     lastName: string,
     lastUpdate: Date,
   ) {
-    this.id = id;
+    this.actorId = actorId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.lastUpdate = lastUpdate;
@@ -18,7 +18,7 @@ export class ActorModel {
 
   public toJson(): Record<string, any> {
     return {
-      id: this.id,
+      actorId: this.actorId,
       first_name: this.firstName,
       last_name: this.lastName,
       last_update: this.lastUpdate,

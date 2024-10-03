@@ -14,7 +14,7 @@ export class ActorDatasource {
   public async create(actor: ActorModel): Promise<void> {
     const entity = new ActorEntity();
 
-    entity.actor_id = actor.id;
+    entity.actor_id = actor.actorId;
     entity.first_name = actor.firstName;
     entity.last_name = actor.lastName;
     entity.last_update = actor.lastUpdate;
@@ -69,7 +69,7 @@ export class ActorDatasource {
     };
 
     if (Object.keys(data).length > 0) {
-      await this.actorRepository.update(actor.id, {
+      await this.actorRepository.update(actor.actorId, {
         ...data,
         last_update: lastUpdate,
       });
@@ -79,7 +79,7 @@ export class ActorDatasource {
   }
 
   public async delete(actor: ActorModel): Promise<boolean> {
-    const result = await this.actorRepository.delete(actor.id);
+    const result = await this.actorRepository.delete(actor.actorId);
     return result.affected > 0;
   }
 }
