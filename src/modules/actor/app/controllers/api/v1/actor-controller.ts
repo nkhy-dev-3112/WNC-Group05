@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -60,11 +61,13 @@ export class ActorController {
     const actorList = await this.getActorListUsecase.call();
 
     if (!actorList) {
-      res.status(400).json({ message: 'Actor list not found' });
+      res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: 'Actor list not found' });
       return;
     }
 
-    res.json(actorList.map((actor) => actor.toJson()));
+    res.status(HttpStatus.OK).json(actorList.map((actor) => actor.toJson()));
   }
 
   /**
@@ -83,7 +86,7 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(400).json({ message: 'Actor not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
     }
 
     const result = await this.updateActorUsecase.call(
@@ -91,7 +94,7 @@ export class ActorController {
       body.first_name,
       body.last_name,
     );
-    res.json(result);
+    res.status(HttpStatus.OK).json(result);
   }
 
   /**
@@ -104,7 +107,7 @@ export class ActorController {
       body.first_name,
       body.last_name,
     );
-    res.json(actor.toJson());
+    res.status(HttpStatus.OK).json(actor.toJson());
   }
 
   /**
@@ -119,11 +122,11 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(400).json({ message: 'Actor not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
       return;
     }
 
     const result = await this.deleteActorUsecase.call(actor);
-    res.json(result);
+    res.status(HttpStatus.OK).json(result);
   }
 }
