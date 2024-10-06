@@ -20,5 +20,6 @@ import { FilmEntity } from './data/datasources/entities/film-entity';
     GetFilmActorByActorIdUsecase,
     DeleteFilmActorByActorIdUsecase,
   ],
+  exports: [DeleteFilmActorByActorIdUsecase],
 })
 export class FilmModule {}

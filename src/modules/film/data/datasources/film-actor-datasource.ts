@@ -12,7 +12,7 @@ export class FilmActorDataSource {
   ) {}
 
   public async deleteByActorId(actorId: number): Promise<boolean> {
-    const result = await this.filmActorRepository.delete(actorId);
+    const result = await this.filmActorRepository.delete({ actor_id: actorId });
 
     return result.affected > 0;
   }
