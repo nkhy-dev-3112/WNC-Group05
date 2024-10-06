@@ -10,7 +10,8 @@ export class GetActorUsecase {
     actorId: number | undefined,
     firstName: string | undefined,
     lastName: string | undefined,
+    relations: string[] | undefined,
   ): Promise<ActorModel | undefined> {
-    return this.actorRepository.get(actorId, firstName, lastName);
+    return this.actorRepository.get(actorId, firstName, lastName, relations);
   }
 }

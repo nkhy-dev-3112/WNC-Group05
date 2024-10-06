@@ -42,6 +42,7 @@ export class ActorController {
       param.actor_id,
       undefined,
       undefined,
+      ['films'],
     );
 
     if (!actor) {
@@ -83,6 +84,7 @@ export class ActorController {
       param.actor_id,
       undefined,
       undefined,
+      undefined,
     );
 
     if (!actor) {
@@ -117,6 +119,7 @@ export class ActorController {
   async delete(@Param() param: GetActorParamDto, @Res() res: Response) {
     const actor = await this.getActorUsecase.call(
       param.actor_id,
+      undefined,
       undefined,
       undefined,
     );

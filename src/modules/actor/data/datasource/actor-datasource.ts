@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ActorEntity } from './entities/actor-entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ActorModel } from '../../domain/models/actor-model';
+import { ActorEntity } from './entities/actor-entity';
 
 @Injectable()
 export class ActorDatasource {
@@ -26,6 +26,7 @@ export class ActorDatasource {
     actorId: number | undefined,
     firstName: string | undefined,
     lastName: string | undefined,
+    relations: string[] | undefined,
   ): Promise<ActorModel | undefined> {
     const condition: FindOptionsWhere<ActorEntity> = {};
 
@@ -44,6 +45,7 @@ export class ActorDatasource {
     return (
       await this.actorRepository.findOne({
         where: condition,
+        relations: relations,
       })
     )?.toModel();
   }

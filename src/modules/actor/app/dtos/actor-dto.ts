@@ -1,5 +1,5 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsInt, IsString, Length } from 'class-validator';
+import { IsBoolean, IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
   @ApiProperty()

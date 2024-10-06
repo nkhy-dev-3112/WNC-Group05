@@ -13,6 +13,7 @@ export abstract class ActorRepository {
     actorId: number | undefined,
     firstName: string | undefined,
     lastName: string | undefined,
+    relations: string[] | undefined,
   ): Promise<ActorModel | undefined>;
   public abstract getList(): Promise<ActorModel[] | undefined>;
   public abstract getMaxId(): Promise<number>;

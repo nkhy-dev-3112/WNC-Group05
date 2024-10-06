@@ -29,8 +29,14 @@ export class ActorRepositoryImpl extends ActorRepository {
     actorId: number | undefined,
     firstName: string | undefined,
     lastName: string | undefined,
+    relations: string[] | undefined,
   ): Promise<ActorModel | undefined> {
-    return await this.actorDatasource.get(actorId, firstName, lastName);
+    return await this.actorDatasource.get(
+      actorId,
+      firstName,
+      lastName,
+      relations,
+    );
   }
   public async getList(): Promise<ActorModel[] | undefined> {
     return await this.actorDatasource.getList();

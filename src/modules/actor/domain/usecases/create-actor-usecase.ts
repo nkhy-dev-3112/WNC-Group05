@@ -11,7 +11,13 @@ export class CreateActorUsecase {
     const now = new Date();
     const maxActorId = await this.actorRepository.getMaxId();
 
-    const actor = new ActorModel(maxActorId + 1, firstName, lastName, now);
+    const actor = new ActorModel(
+      maxActorId + 1,
+      firstName,
+      lastName,
+      now,
+      undefined,
+    );
     await this.actorRepository.create(actor);
 
     return actor;
