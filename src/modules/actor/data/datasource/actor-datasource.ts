@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ActorEntity } from './entities/actor-entities';
+import { ActorEntity } from './entities/actor-entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ActorModel } from '../../domain/models/actor-model';
 

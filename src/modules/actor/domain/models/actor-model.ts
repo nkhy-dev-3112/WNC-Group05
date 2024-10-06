@@ -27,7 +27,7 @@ export class ActorModel {
 
   public toJson(): Record<string, any> {
     return {
-      actorId: this.actorId,
+      actor_id: this.actorId,
       first_name: this.firstName,
       last_name: this.lastName,
       last_update: this.lastUpdate,

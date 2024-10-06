@@ -1,6 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ActorEntity } from './data/datasource/entities/actor-entities';
+import { ActorEntity } from './data/datasource/entities/actor-entity';
 import { AppModule } from '../app/app.module';
 import { ActorController } from './app/controllers/api/v1/actor-controller';
 import { ActorRepository } from './domain/repositories/actor-repository';
@@ -11,9 +11,13 @@ import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
 import { UpdateActorUsecase } from './domain/usecases/update-actor-usecase';
 import { CreateActorUsecase } from './domain/usecases/create-actor-usecase';
 import { DeleteActorUsecase } from './domain/usecases/delete-actor-usecase';
+import { FilmModule } from '../film/film-module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ActorEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ActorEntity]),
+    forwardRef(() => FilmModule),
+  ],
   controllers: [ActorController],
   providers: [
     {
