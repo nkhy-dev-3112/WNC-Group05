@@ -17,7 +17,7 @@ export class ActorEntity {
   last_update!: Date;
 
   @ManyToMany(() => FilmEntity, (film) => film.actors)
-  films!: FilmEntity[];
+  films?: FilmEntity[];
 
   public toModel(): ActorModel {
     return new ActorModel(

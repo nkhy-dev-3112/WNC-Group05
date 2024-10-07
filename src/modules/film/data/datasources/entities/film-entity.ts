@@ -11,6 +11,7 @@ import { FilmModel } from '../../../domain/models/film-model';
 import { ActorEntity } from '../../../../actor/data/datasource/entities/actor-entity';
 import { FilmRating } from '../../../domain/enums/film-rating';
 import { LanguageEntity } from '../../../../language/data/datasources/entities/language-entity';
+import { CategoryEntity } from '../../../../category/data/datasources/entities/category-entity';
 
 @Entity('film')
 export class FilmEntity {
@@ -71,6 +72,20 @@ export class FilmEntity {
     },
   })
   actors!: ActorEntity[];
+
+  @ManyToMany(() => CategoryEntity, (category) => category.films)
+  @JoinTable({
+    name: 'film_category',
+    joinColumn: {
+      name: 'film_id',
+      referencedColumnName: 'film_id',
+    },
+    inverseJoinColumn: {
+      name: 'category_id',
+      referencedColumnName: 'category_id',
+    },
+  })
+  categories?: CategoryEntity[];
 
   @OneToOne(() => LanguageEntity)
   @JoinColumn({ name: 'language_id' })
