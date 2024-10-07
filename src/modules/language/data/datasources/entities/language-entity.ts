@@ -3,8 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  OneToMany, // Import OneToMany
 } from 'typeorm';
 import { LanguageModel } from '../../../domain/models/language-model';
+import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity'; // Import FilmEntity
 
 @Entity('language') // Assuming the table name is 'languages'
 export class LanguageEntity {
@@ -16,6 +18,9 @@ export class LanguageEntity {
 
   @Column({ type: 'date', name: 'last_update' })
   last_update: Date;
+
+  @OneToMany(() => FilmEntity, (film) => film.language)
+  films!: FilmEntity[];
 
   public toModel(): LanguageModel {
     return new LanguageModel(this.language_id, this.name, this.last_update);

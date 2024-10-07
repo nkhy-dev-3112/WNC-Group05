@@ -11,7 +11,7 @@ import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
 import { UpdateActorUsecase } from './domain/usecases/update-actor-usecase';
 import { CreateActorUsecase } from './domain/usecases/create-actor-usecase';
 import { DeleteActorUsecase } from './domain/usecases/delete-actor-usecase';
-import { FilmModule } from '../film/film-module';
+import { FilmModule } from '../film/film.module';
 
 @Module({
   imports: [

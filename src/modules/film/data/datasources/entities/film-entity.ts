@@ -1,14 +1,18 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FilmModel } from '../../../domain/models/film-model';
 import { ActorEntity } from '../../../../actor/data/datasource/entities/actor-entity';
 import { ActorModel } from '../../../../actor/domain/models/actor-model';
 import { FilmRating } from '../../../domain/enums/film-rating';
+import { LanguageEntity } from '../../../../language/data/datasources/entities/language-entity';
 
 @Entity('film')
 export class FilmEntity {
@@ -54,6 +58,8 @@ export class FilmEntity {
   @Column({ type: 'tsvector', nullable: true, select: false })
   fulltext?: string;
 
+  /** Relations */
+
   @ManyToMany(() => ActorEntity, (actor) => actor.films)
   @JoinTable({
     name: 'film_actor',
@@ -67,6 +73,14 @@ export class FilmEntity {
     },
   })
   actors!: ActorEntity[];
+
+  @OneToOne(() => LanguageEntity)
+  @JoinColumn({ name: 'language_id' })
+  language!: LanguageEntity;
+
+  @OneToOne(() => LanguageEntity)
+  @JoinColumn({ name: 'original_language_id' })
+  original_language!: LanguageEntity;
 
   public toModel(): FilmModel {
     return new FilmModel(
