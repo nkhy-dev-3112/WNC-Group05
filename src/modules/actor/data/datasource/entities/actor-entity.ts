@@ -1,6 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
 import { ActorModel } from '../../../domain/models/actor-model';
-import { FilmActorEntity } from '../../../../film/data/datasources/entities/film-actor-entity';
 import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 
 @Entity('actor')
