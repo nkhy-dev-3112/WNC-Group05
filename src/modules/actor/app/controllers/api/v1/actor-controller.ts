@@ -84,7 +84,7 @@ export class ActorController {
     @Param() param: GetActorParamDto,
     @Res() res: Response,
   ) {
-    let actor = await this.getActorUsecase.call(
+    const actor = await this.getActorUsecase.call(
       param.actor_id,
       undefined,
       undefined,

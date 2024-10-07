@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { LanguageRepository } from '../repositories/language-repository';
 import { LanguageModel } from '../models/language-model';
-import { GetLanguageUsecase } from './get-language-usecase';
 
 @Injectable()
 export class CreateLanguageUsecase {

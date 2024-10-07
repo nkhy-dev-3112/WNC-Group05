@@ -1,7 +1,6 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ActorEntity } from './data/datasource/entities/actor-entity';
-import { AppModule } from '../app/app.module';
 import { ActorController } from './app/controllers/api/v1/actor-controller';
 import { ActorRepository } from './domain/repositories/actor-repository';
 import { ActorRepositoryImpl } from './data/repositories/actor-repository-impl';

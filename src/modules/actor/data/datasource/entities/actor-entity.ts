@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 import { ActorModel } from '../../../domain/models/actor-model';
 import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 

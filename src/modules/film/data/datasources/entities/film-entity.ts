@@ -4,13 +4,11 @@ import {
   JoinColumn,
   JoinTable,
   ManyToMany,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FilmModel } from '../../../domain/models/film-model';
 import { ActorEntity } from '../../../../actor/data/datasource/entities/actor-entity';
-import { ActorModel } from '../../../../actor/domain/models/actor-model';
 import { FilmRating } from '../../../domain/enums/film-rating';
 import { LanguageEntity } from '../../../../language/data/datasources/entities/language-entity';
 

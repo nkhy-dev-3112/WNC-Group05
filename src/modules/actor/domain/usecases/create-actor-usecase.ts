@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ActorRepository } from '../repositories/actor-repository';
 import { ActorModel } from '../models/actor-model';
-import { first } from 'rxjs';
 
 @Injectable()
 export class CreateActorUsecase {
