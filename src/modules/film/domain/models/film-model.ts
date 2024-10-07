@@ -1,4 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CategoryModel } from '../../../category/domain/models/category-model';
+import { LanguageModel } from '../../../language/domain/models/language-model';
 
 export class FilmModel {
   @ApiProperty({ name: 'film_id' })
@@ -43,6 +45,17 @@ export class FilmModel {
   @ApiProperty({ name: 'fulltext' })
   public readonly fulltext: string | undefined;
 
+  /** Relations */
+
+  @ApiPropertyOptional({ name: 'categories' })
+  public readonly categories: CategoryModel[] | undefined;
+
+  @ApiPropertyOptional({ name: 'language' })
+  public readonly language: LanguageModel | undefined;
+
+  @ApiPropertyOptional({ name: 'original_language' })
+  public readonly orginalLanguage: LanguageModel | undefined;
+
   constructor(
     filmId: number,
     title: string,
@@ -58,6 +71,9 @@ export class FilmModel {
     lastUpdate: Date,
     specialFeatures: string[] | undefined,
     fulltext: string | undefined,
+    categories: CategoryModel[] | undefined,
+    language: LanguageModel | undefined,
+    orginalLanguage: LanguageModel | undefined,
   ) {
     this.filmId = filmId;
     this.title = title;
@@ -73,6 +89,9 @@ export class FilmModel {
     this.lastUpdate = lastUpdate;
     this.specialFeatures = specialFeatures;
     this.fulltext = fulltext;
+    this.categories = categories;
+    this.language = language;
+    this.orginalLanguage = orginalLanguage;
   }
 
   public toJson(): Record<string, any> {
@@ -91,6 +110,9 @@ export class FilmModel {
       last_update: this.lastUpdate,
       special_features: this.specialFeatures,
       fulltext: this.fulltext,
+      categories: this.categories?.map((cat) => cat?.toJson()),
+      language: this.language?.toJson(),
+      original_language: this.orginalLanguage?.toJson(),
     };
   }
 }

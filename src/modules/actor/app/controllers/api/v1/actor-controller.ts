@@ -21,8 +21,6 @@ import { UpdateActorUsecase } from '../../../../domain/usecases/update-actor-use
 import { CreateActorUsecase } from '../../../../domain/usecases/create-actor-usecase';
 import { DeleteActorUsecase } from '../../../../domain/usecases/delete-actor-usecase';
 import { ApiTags } from '@nestjs/swagger';
-import { DeleteFilmActorByActorIdUsecase } from '../../../../../film/domain/usecases/film-actor/delete-film-actor-by-actor-id-usecase';
-import { GetFilmActorByActorIdUsecase } from '../../../../../film/domain/usecases/film-actor/get-film-actor-by-actor-id-usecase';
 
 @ApiTags('Actor')
 @Controller({ path: 'api/actor/v1/me' })
@@ -33,8 +31,6 @@ export class ActorController {
     private readonly updateActorUsecase: UpdateActorUsecase,
     private readonly createActorUsecase: CreateActorUsecase,
     private readonly deleteActorUsecase: DeleteActorUsecase,
-    private readonly deleteFilmActorByActorIdUsecase: DeleteFilmActorByActorIdUsecase,
-    private readonly getFilmActorByActorIdUsecase: GetFilmActorByActorIdUsecase,
   ) {}
 
   /**
@@ -50,7 +46,7 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(400).json({ message: 'Actor not found' });
+      res.status(HttpStatus.NOT_FOUND).json({ message: 'Actor not found' });
       return;
     }
 

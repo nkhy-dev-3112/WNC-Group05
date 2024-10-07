@@ -25,7 +25,7 @@ export class ActorEntity {
       this.first_name,
       this.last_name,
       this.last_update,
-      this.films.map((film) => film?.toModel()),
+      this.films?.map((film) => film?.toModel()),
     );
   }
 }

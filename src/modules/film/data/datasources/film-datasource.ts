@@ -27,12 +27,15 @@ export class FilmDatasource {
       condition['title'] = title;
     }
 
-    return (
-      await this.filmRepository.findOne({
-        where: condition,
-        relations: relations,
-      })
-    )?.toModel();
+    const options = {
+      where: condition,
+    };
+
+    if (relations !== undefined) {
+      options['relations'] = relations;
+    }
+
+    return (await this.filmRepository.findOne(options))?.toModel();
   }
 
   public async update(
@@ -49,7 +52,7 @@ export class FilmDatasource {
     specialFeatures: string[] | undefined,
     fullText: string | undefined,
     lastUpdate: Date | undefined,
-  ) {
+  ): Promise<boolean> {
     const data = {
       ...(title !== undefined && { title }),
       ...(description !== undefined && { description }),

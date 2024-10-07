@@ -111,6 +111,9 @@ export class FilmEntity {
       this.last_update,
       this.special_features,
       this.fulltext,
+      this.categories?.map((cat) => cat?.toModel()),
+      this.language?.toModel(),
+      this.original_language?.toModel(),
     );
   }
 }

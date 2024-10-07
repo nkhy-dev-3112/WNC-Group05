@@ -1,14 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToMany,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 import { CategoryModel } from '../../../domain/models/category-model';
 import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 
-@Entity('language')
+@Entity('category')
 export class CategoryEntity {
   @PrimaryGeneratedColumn({ name: 'category_id' })
   category_id!: number;

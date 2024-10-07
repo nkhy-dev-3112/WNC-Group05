@@ -22,4 +22,4 @@ import { UpdateCategoryUsecase } from './domain/usecases/update-category-usecase
     UpdateCategoryUsecase,
   ],
 })
-export class LanguageModule {}
+export class CategoryModule {}
