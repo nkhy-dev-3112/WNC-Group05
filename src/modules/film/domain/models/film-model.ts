@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CategoryModel } from '../../../category/domain/models/category-model';
 import { LanguageModel } from '../../../language/domain/models/language-model';
+import { ActorModel } from '../../../actor/domain/models/actor-model';
 
 export class FilmModel {
   @ApiProperty({ name: 'film_id' })
@@ -56,6 +57,9 @@ export class FilmModel {
   @ApiPropertyOptional({ name: 'original_language' })
   public readonly orginalLanguage: LanguageModel | undefined;
 
+  @ApiPropertyOptional({ name: 'actors' })
+  public readonly actors: ActorModel[] | undefined;
+
   constructor(
     filmId: number,
     title: string,
@@ -74,6 +78,7 @@ export class FilmModel {
     categories: CategoryModel[] | undefined,
     language: LanguageModel | undefined,
     orginalLanguage: LanguageModel | undefined,
+    actors: ActorModel[] | undefined,
   ) {
     this.filmId = filmId;
     this.title = title;
@@ -92,6 +97,7 @@ export class FilmModel {
     this.categories = categories;
     this.language = language;
     this.orginalLanguage = orginalLanguage;
+    this.actors = actors;
   }
 
   public toJson(): Record<string, any> {
@@ -113,6 +119,7 @@ export class FilmModel {
       categories: this.categories?.map((cat) => cat?.toJson()),
       language: this.language?.toJson(),
       original_language: this.orginalLanguage?.toJson(),
+      actors: this.actors?.map((actor) => actor?.toJson()),
     };
   }
 }

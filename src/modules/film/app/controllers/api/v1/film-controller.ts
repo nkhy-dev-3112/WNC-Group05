@@ -18,6 +18,7 @@ export class FilmController {
       'categories',
       'language',
       'original_language',
+      'actors',
     ]);
 
     if (!film) {

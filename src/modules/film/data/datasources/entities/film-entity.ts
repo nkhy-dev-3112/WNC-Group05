@@ -114,6 +114,7 @@ export class FilmEntity {
       this.categories?.map((cat) => cat?.toModel()),
       this.language?.toModel(),
       this.original_language?.toModel(),
+      this.actors?.map((actor) => actor.toModel()),
     );
   }
 }
