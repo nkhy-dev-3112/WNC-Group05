@@ -8,6 +8,7 @@ import {
 import { FilmModel } from '../../../domain/models/film-model';
 import { ActorEntity } from '../../../../actor/data/datasource/entities/actor-entity';
 import { ActorModel } from '../../../../actor/domain/models/actor-model';
+import { FilmRating } from '../../../domain/enums/film-rating';
 
 @Entity('film')
 export class FilmEntity {
@@ -42,15 +43,15 @@ export class FilmEntity {
   replacement_cost!: number;
 
   @Column({ type: 'varchar', length: 10, nullable: true })
-  rating?: string;
+  rating?: FilmRating;
 
   @Column({ type: 'timestamp', default: () => 'now()' })
   last_update!: Date;
 
   @Column({ type: 'text', nullable: true })
-  special_features?: string;
+  special_features?: string[];
 
-  @Column({ type: 'tsvector', nullable: true })
+  @Column({ type: 'tsvector', nullable: true, select: false })
   fulltext?: string;
 
   @ManyToMany(() => ActorEntity, (actor) => actor.films)

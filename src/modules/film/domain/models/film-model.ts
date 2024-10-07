@@ -38,7 +38,7 @@ export class FilmModel {
   public readonly lastUpdate: Date;
 
   @ApiProperty({ name: 'special_features' })
-  public readonly specialFeatures: string | undefined;
+  public readonly specialFeatures: string[] | undefined;
 
   @ApiProperty({ name: 'fulltext' })
   public readonly fulltext: string | undefined;
@@ -56,7 +56,7 @@ export class FilmModel {
     replacementCost: number,
     rating: string | undefined,
     lastUpdate: Date,
-    specialFeatures: string | undefined,
+    specialFeatures: string[] | undefined,
     fulltext: string | undefined,
   ) {
     this.filmId = filmId;
