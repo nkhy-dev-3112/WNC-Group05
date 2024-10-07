@@ -88,7 +88,7 @@ export class ActorController {
       param.actor_id,
       undefined,
       undefined,
-      [],
+      ['films'],
     );
 
     if (!actor) {
