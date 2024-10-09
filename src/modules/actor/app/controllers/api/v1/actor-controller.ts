@@ -68,7 +68,7 @@ export class ActorController {
       return;
     }
 
-    res.status(HttpStatus.OK).json(actorList.map((actor) => actor.toJson()));
+    res.status(HttpStatus.OK).json(actorList?.map((actor) => actor.toJson()));
   }
 
   /**

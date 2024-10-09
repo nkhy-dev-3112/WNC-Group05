@@ -37,7 +37,7 @@ export class ActorModel {
       first_name: this.firstName,
       last_name: this.lastName,
       last_update: this.lastUpdate,
-      films: this.films.map((film) => film?.toJson()),
+      films: this.films?.map((film) => film?.toJson()),
     };
   }
 }
