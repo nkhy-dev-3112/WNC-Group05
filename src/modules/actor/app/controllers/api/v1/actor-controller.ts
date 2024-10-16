@@ -43,12 +43,21 @@ export class ActorController {
    * Get by id
    */
   @ApiOperation({ summary: 'Get an actor by their ID' })
-  @ApiResponse({ status: 200, description: 'Actor found' })
-  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Actor found',
+    example: { id: 1, first_name: 'John', last_name: 'Doe' },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Actor not found',
+    example: { message: 'Actor not found' },
+  })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
+    example: 1,
   })
   @Get('id/:actor_id')
   async get(@Param() param: GetActorParamDto, @Res() res: Response) {
@@ -71,8 +80,19 @@ export class ActorController {
    * Get actor list
    */
   @ApiOperation({ summary: 'Get a list of all actors' })
-  @ApiResponse({ status: 200, description: 'Actor list found' })
-  @ApiResponse({ status: 404, description: 'Actor list not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Actor list found',
+    example: [
+      { id: 1, first_name: 'John', last_name: 'Doe' },
+      { id: 2, first_name: 'Jane', last_name: 'Doe' },
+    ],
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Actor list not found',
+    example: { message: 'Actor list not found' },
+  })
   @Get('/')
   async getList(@Res() res: Response) {
     const actorList = await this.getActorListUsecase.call();
@@ -91,14 +111,32 @@ export class ActorController {
    *  Update actor
    */
   @ApiOperation({ summary: 'Update an actor' })
-  @ApiResponse({ status: 200, description: 'Actor updated successfully' })
-  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Actor updated successfully',
+    example: true,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Actor not found',
+    example: { message: 'Actor not found' },
+  })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
+    example: 1,
   })
-  @ApiBody({ description: 'Actor update details', type: UpdateActorDto })
+  @ApiBody({
+    description: 'Actor update details',
+    type: UpdateActorDto,
+    schema: {
+      example: {
+        name: 'John Doe',
+        email: 'john@example.com',
+      },
+    },
+  })
   @Put('id/:actor_id')
   async update(
     @Body() body: UpdateActorDto,
@@ -128,8 +166,21 @@ export class ActorController {
    * Create actor
    */
   @ApiOperation({ summary: 'Create a new actor' })
-  @ApiResponse({ status: 201, description: 'Actor created successfully' })
-  @ApiBody({ description: 'Actor details', type: CreateActorDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Actor created successfully',
+    example: { id: 1, first_name: 'John', last_name: 'Doe' },
+  })
+  @ApiBody({
+    description: 'Actor details',
+    type: CreateActorDto,
+    schema: {
+      example: {
+        first_name: 'John',
+        last_name: 'Doe',
+      },
+    },
+  })
   @Post('/')
   async create(@Body() body: CreateActorDto, @Res() res: Response) {
     const actor = await this.createActorUsecase.call(
@@ -143,12 +194,21 @@ export class ActorController {
    * Delete actor
    */
   @ApiOperation({ summary: 'Delete an actor' })
-  @ApiResponse({ status: 200, description: 'Actor deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Actor deleted successfully',
+    example: true,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Actor not found',
+    example: { message: 'Actor not found' },
+  })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
+    example: 1,
   })
   @Delete('id/:actor_id')
   async delete(@Param() param: GetActorParamDto, @Res() res: Response) {

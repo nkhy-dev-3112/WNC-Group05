@@ -45,12 +45,21 @@ export class FilmController {
    * Get by id
    */
   @ApiOperation({ summary: 'Get a film by its ID' })
-  @ApiResponse({ status: 200, description: 'Film found' })
-  @ApiResponse({ status: 404, description: 'Film not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Film found',
+    example: { id: 1, title: 'The Shawshank Redemption', release_year: 1994 },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Film not found',
+    example: { message: 'Film not found' },
+  })
   @ApiParam({
     name: 'film_id',
     description: 'The ID of the film to retrieve',
     required: true,
+    example: 1,
   })
   @Get('id/:film_id')
   async get(@Param() param: GetFilmParamDto, @Res() res: Response) {
@@ -73,16 +82,42 @@ export class FilmController {
    * Update film
    */
   @ApiOperation({ summary: 'Update an existing film' })
-  @ApiResponse({ status: 200, description: 'Film updated successfully' })
-  @ApiResponse({ status: 404, description: 'Film not found' })
-  @ApiResponse({ status: 404, description: 'Language not found' })
-  @ApiResponse({ status: 404, description: 'Original language not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Film updated successfully',
+    example: true,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Film not found',
+    example: { message: 'Film not found' },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Language not found',
+    example: { message: 'Language not found' },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Original language not found',
+    example: { message: 'Original language not found' },
+  })
   @ApiParam({
     name: 'film_id',
     description: 'The ID of the film to update',
     required: true,
+    example: 1,
   })
-  @ApiBody({ description: 'Film update details', type: UpdateFilmDto })
+  @ApiBody({
+    description: 'Film update details',
+    type: UpdateFilmDto,
+    schema: {
+      example: {
+        title: 'The Shawshank Redemption',
+        release_year: 1994,
+      },
+    },
+  })
   @Put('id/:film_id')
   async update(
     @Param() param: GetFilmParamDto,
@@ -148,19 +183,37 @@ export class FilmController {
    * Create film actor
    */
   @ApiOperation({ summary: 'Create a new film actor association' })
-  @ApiResponse({ status: 201, description: 'Film actor created successfully' })
-  @ApiResponse({ status: 404, description: 'Actor not found' })
-  @ApiResponse({ status: 404, description: 'Film not found' })
-  @ApiResponse({ status: 404, description: 'Film actor not found' })
+  @ApiResponse({
+    status: 201,
+    description: 'Film actor created successfully',
+    example: { id: 1, film_id: 1, actor_id: 1 },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Actor not found',
+    example: { message: 'Actor not found' },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Film not found',
+    example: { message: 'Film not found' },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Film actor not found',
+    example: { message: 'Film actor not found' },
+  })
   @ApiParam({
     name: 'film_id',
     description: 'The ID of the film',
     required: true,
+    example: 1,
   })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
+    example: 1,
   })
   @Post('id/:film_id/actor/:actor_id')
   async createFilmActor(

@@ -38,8 +38,20 @@ export class LanguageController {
    * Create language
    */
   @ApiOperation({ summary: 'Create a new language' })
-  @ApiResponse({ status: 201, description: 'Language created successfully' })
-  @ApiResponse({ status: 400, description: 'This language is already exists' })
+  @ApiResponse({
+    status: 201,
+    description: 'Language created successfully',
+    example: { name: 'Spanish' },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'This language is already exists',
+    example: { message: 'This language is already exists' },
+  })
+  @ApiBody({
+    type: CreateLanguageDto,
+    description: 'Language creation details',
+  })
   @Post()
   async create(@Body() body: CreateLanguageDto, @Res() res: Response) {
     let language = await this.getLanguageUsecase.call(undefined, body.name);
@@ -57,12 +69,21 @@ export class LanguageController {
    * Get by id
    */
   @ApiOperation({ summary: 'Get a language by its ID' })
-  @ApiResponse({ status: 200, description: 'Language found' })
-  @ApiResponse({ status: 400, description: 'Language not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Language found',
+    example: { id: 1, name: 'English' },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Language not found',
+    example: { message: 'Language not found' },
+  })
   @ApiParam({
     name: 'language_id',
     description: 'The ID of the language to retrieve',
     required: true,
+    example: 1,
   })
   @Get('id/:language_id')
   async get(@Param() param: GetLanguageParamDto, @Res() res: Response) {
@@ -85,13 +106,23 @@ export class LanguageController {
    * Update language
    */
   @ApiOperation({ summary: 'Update an existing language' })
-  @ApiResponse({ status: 200, description: 'Language updated successfully' })
-  @ApiResponse({ status: 400, description: 'Language not found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Language updated successfully',
+    example: true,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Language not found',
+    example: { message: 'Language not found' },
+  })
   @ApiParam({
     name: 'language_id',
     description: 'The ID of the language to update',
     required: true,
+    example: 1,
   })
+  @ApiBody({ type: UpdateLanguageDto, description: 'Language update details' })
   @Put('id/:language_id')
   async update(
     @Param() param: GetLanguageParamDto,
