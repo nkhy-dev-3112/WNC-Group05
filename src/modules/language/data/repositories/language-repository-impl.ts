@@ -19,11 +19,11 @@ export class LanguageRepositoryImpl extends LanguageRepository {
     return this.languageDatasource.get(languageId, name);
   }
   public async update(
-    languageId: number,
+    language: LanguageModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean> {
-    return this.languageDatasource.update(languageId, name, lastUpdate);
+    return this.languageDatasource.update(language, name, lastUpdate);
   }
   public async delete(languageId: number): Promise<void> {
     await this.languageDatasource.delete(languageId);

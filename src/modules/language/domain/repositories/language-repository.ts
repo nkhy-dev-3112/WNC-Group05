@@ -7,7 +7,7 @@ export abstract class LanguageRepository {
     name: string | undefined,
   ): Promise<LanguageModel | undefined>;
   public abstract update(
-    languageId: number,
+    language: LanguageModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean>;

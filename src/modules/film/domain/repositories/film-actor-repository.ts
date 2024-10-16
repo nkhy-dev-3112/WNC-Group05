@@ -7,4 +7,6 @@ export abstract class FilmActorRepository {
   ): Promise<FilmActorModel[] | undefined>;
 
   public abstract deleteByActorId(actorId: number): Promise<boolean>;
+
+  public abstract create(filmActor: FilmActorModel): Promise<void>;
 }

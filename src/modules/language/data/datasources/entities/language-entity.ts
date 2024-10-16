@@ -5,9 +5,9 @@ import {
   OneToMany, // Import OneToMany
 } from 'typeorm';
 import { LanguageModel } from '../../../domain/models/language-model';
-import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity'; // Import FilmEntity
+import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 
-@Entity('language') // Assuming the table name is 'languages'
+@Entity('language')
 export class LanguageEntity {
   @PrimaryGeneratedColumn({ name: 'language_id' })
   language_id!: number;

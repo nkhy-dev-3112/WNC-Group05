@@ -1,13 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
-
 export class LanguageModel {
-  @ApiProperty({ name: 'language_id' })
   languageId: number;
 
-  @ApiProperty({ name: 'name' })
   name: string;
 
-  @ApiProperty({ name: 'last_update' })
   lastUpdate: Date;
 
   constructor(languageId: number, name: string, lastUpdate: Date) {

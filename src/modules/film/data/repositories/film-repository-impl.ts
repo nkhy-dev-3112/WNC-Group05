@@ -10,14 +10,14 @@ export class FilmRepositoryImpl extends FilmRepository {
     super();
   }
 
-  public get(
+  public async get(
     filmId: number | undefined,
     title: string | undefined,
     relations: string[] | undefined,
   ): Promise<FilmModel | undefined> {
     return this.filmDatasouce.get(filmId, title, relations);
   }
-  public update(
+  public async update(
     film: FilmModel,
     title: string | undefined,
     description: string | undefined,
@@ -27,6 +27,7 @@ export class FilmRepositoryImpl extends FilmRepository {
     rentalDuration: number,
     rentalRate: number | undefined,
     replacementCost: number | undefined,
+    length: number | undefined,
     rating: FilmRating | undefined,
     specialFeatures: string[] | undefined,
     fullText: string | undefined,
@@ -41,6 +42,7 @@ export class FilmRepositoryImpl extends FilmRepository {
       originalLanguageId,
       rentalDuration,
       rentalRate,
+      length,
       replacementCost,
       rating,
       specialFeatures,

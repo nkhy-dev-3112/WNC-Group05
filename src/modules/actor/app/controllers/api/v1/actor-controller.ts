@@ -20,7 +20,13 @@ import { GetActorListUsecase } from '../../../../domain/usecases/get-actor-list-
 import { UpdateActorUsecase } from '../../../../domain/usecases/update-actor-usecase';
 import { CreateActorUsecase } from '../../../../domain/usecases/create-actor-usecase';
 import { DeleteActorUsecase } from '../../../../domain/usecases/delete-actor-usecase';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+} from '@nestjs/swagger';
 
 @ApiTags('Actor')
 @Controller({ path: 'api/actor/v1/me' })
@@ -36,6 +42,14 @@ export class ActorController {
   /**
    * Get by id
    */
+  @ApiOperation({ summary: 'Get an actor by their ID' })
+  @ApiResponse({ status: 200, description: 'Actor found' })
+  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiParam({
+    name: 'actor_id',
+    description: 'The ID of the actor',
+    required: true,
+  })
   @Get('id/:actor_id')
   async get(@Param() param: GetActorParamDto, @Res() res: Response) {
     const actor = await this.getActorUsecase.call(
@@ -56,7 +70,9 @@ export class ActorController {
   /**
    * Get actor list
    */
-
+  @ApiOperation({ summary: 'Get a list of all actors' })
+  @ApiResponse({ status: 200, description: 'Actor list found' })
+  @ApiResponse({ status: 404, description: 'Actor list not found' })
   @Get('/')
   async getList(@Res() res: Response) {
     const actorList = await this.getActorListUsecase.call();
@@ -74,6 +90,15 @@ export class ActorController {
   /**
    *  Update actor
    */
+  @ApiOperation({ summary: 'Update an actor' })
+  @ApiResponse({ status: 200, description: 'Actor updated successfully' })
+  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiParam({
+    name: 'actor_id',
+    description: 'The ID of the actor',
+    required: true,
+  })
+  @ApiBody({ description: 'Actor update details', type: UpdateActorDto })
   @Put('id/:actor_id')
   async update(
     @Body() body: UpdateActorDto,
@@ -102,7 +127,9 @@ export class ActorController {
   /**
    * Create actor
    */
-
+  @ApiOperation({ summary: 'Create a new actor' })
+  @ApiResponse({ status: 201, description: 'Actor created successfully' })
+  @ApiBody({ description: 'Actor details', type: CreateActorDto })
   @Post('/')
   async create(@Body() body: CreateActorDto, @Res() res: Response) {
     const actor = await this.createActorUsecase.call(
@@ -115,6 +142,14 @@ export class ActorController {
   /**
    * Delete actor
    */
+  @ApiOperation({ summary: 'Delete an actor' })
+  @ApiResponse({ status: 200, description: 'Actor deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Actor not found' })
+  @ApiParam({
+    name: 'actor_id',
+    description: 'The ID of the actor',
+    required: true,
+  })
   @Delete('id/:actor_id')
   async delete(@Param() param: GetActorParamDto, @Res() res: Response) {
     const actor = await this.getActorUsecase.call(

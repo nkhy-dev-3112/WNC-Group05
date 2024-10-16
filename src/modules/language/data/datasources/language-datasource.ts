@@ -28,7 +28,7 @@ export class LanguageDatasource {
     const condition: FindOptionsWhere<LanguageEntity> = {};
 
     if (languageId) {
-      condition['languageId'] = languageId;
+      condition['language_id'] = languageId;
     }
 
     if (name) {
@@ -43,17 +43,17 @@ export class LanguageDatasource {
   }
 
   public async update(
-    languageId: number,
+    language: LanguageModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean> {
     const data = {
-      ...(name !== undefined && { name }),
-      ...(lastUpdate !== undefined && { lastUpdate }),
+      ...(name !== undefined && { name: name }),
+      ...(lastUpdate !== undefined && { last_update: lastUpdate }),
     };
 
     if (Object.keys(data).length > 0) {
-      await this.languageRepository.update(languageId, {
+      await this.languageRepository.update(language.languageId, {
         ...data,
       });
       return true;

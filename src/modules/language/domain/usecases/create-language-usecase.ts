@@ -12,7 +12,7 @@ export class CreateLanguageUsecase {
 
     const language = new LanguageModel(maxLanguageId + 1, name, now);
     await this.languageRepository.create(language);
-
+    console.log(language.toJson());
     return language;
   }
 }

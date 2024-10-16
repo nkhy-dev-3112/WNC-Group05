@@ -17,6 +17,7 @@ export abstract class FilmRepository {
     originalLanguageId: number | undefined,
     rentalDuration: number,
     rentalRate: number | undefined,
+    length: number | undefined,
     replacementCost: number | undefined,
     rating: FilmRating | undefined,
     specialFeatures: string[] | undefined,

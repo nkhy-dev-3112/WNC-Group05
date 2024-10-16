@@ -1,63 +1,45 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CategoryModel } from '../../../category/domain/models/category-model';
 import { LanguageModel } from '../../../language/domain/models/language-model';
 import { ActorModel } from '../../../actor/domain/models/actor-model';
+import { FilmRating } from '../enums/film-rating';
 
 export class FilmModel {
-  @ApiProperty({ name: 'film_id' })
   public readonly filmId: number;
 
-  @ApiProperty({ name: 'title' })
   public readonly title: string;
 
-  @ApiProperty({ name: 'description' })
   public readonly description: string | undefined;
 
-  @ApiProperty({ name: 'release_year' })
   public readonly releaseYear: number | undefined;
 
-  @ApiProperty({ name: 'language_id' })
   public readonly languageId: number;
 
-  @ApiProperty({ name: 'original_language_id' })
   public readonly originalLanguageId: number | undefined;
 
-  @ApiProperty({ name: 'rental_duration' })
   public readonly rentalDuration: number;
 
-  @ApiProperty({ name: 'rental_rate' })
   public readonly rentalRate: number;
 
-  @ApiProperty({ name: 'length' })
   public readonly length: number | undefined;
 
-  @ApiProperty({ name: 'replacement_cost' })
   public readonly replacementCost: number;
 
-  @ApiProperty({ name: 'rating' })
-  public readonly rating: string | undefined;
+  public readonly rating: FilmRating | undefined;
 
-  @ApiProperty({ name: 'last_update' })
   public readonly lastUpdate: Date;
 
-  @ApiProperty({ name: 'special_features' })
   public readonly specialFeatures: string[] | undefined;
 
-  @ApiProperty({ name: 'fulltext' })
   public readonly fulltext: string | undefined;
 
   /** Relations */
 
-  @ApiPropertyOptional({ name: 'categories' })
   public readonly categories: CategoryModel[] | undefined;
 
-  @ApiPropertyOptional({ name: 'language' })
   public readonly language: LanguageModel | undefined;
 
-  @ApiPropertyOptional({ name: 'original_language' })
   public readonly orginalLanguage: LanguageModel | undefined;
 
-  @ApiPropertyOptional({ name: 'actors' })
   public readonly actors: ActorModel[] | undefined;
 
   constructor(
@@ -71,7 +53,7 @@ export class FilmModel {
     rentalRate: number,
     length: number | undefined,
     replacementCost: number,
-    rating: string | undefined,
+    rating: FilmRating | undefined,
     lastUpdate: Date,
     specialFeatures: string[] | undefined,
     fulltext: string | undefined,

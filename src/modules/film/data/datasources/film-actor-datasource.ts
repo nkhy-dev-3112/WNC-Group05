@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FilmActorEntity } from './entities/film-actor-entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { FilmActorModel } from '../../domain/models/film-actor-model';
+import { FilmCategoryModel } from '../../domain/models/film-category-model';
 
 @Injectable()
 export class FilmActorDataSource {
@@ -10,6 +11,16 @@ export class FilmActorDataSource {
     @InjectRepository(FilmActorEntity)
     private readonly filmActorRepository: Repository<FilmActorEntity>,
   ) {}
+
+  public async create(filmActorModel: FilmActorModel): Promise<void> {
+    const entity = new FilmActorEntity();
+
+    entity.actor_id = filmActorModel.actorId;
+    entity.film_id = filmActorModel.filmId;
+    entity.last_update = filmActorModel.lastUpdate;
+
+    await this.filmActorRepository.insert(entity);
+  }
 
   public async deleteByActorId(actorId: number): Promise<boolean> {
     const result = await this.filmActorRepository.delete({ actor_id: actorId });

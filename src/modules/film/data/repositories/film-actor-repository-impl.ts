@@ -9,13 +9,17 @@ export class FilmActorRepositoryImpl extends FilmActorRepository {
     super();
   }
 
-  public get(
+  public async get(
     actorId: number | undefined,
     filmId: number | undefined,
   ): Promise<FilmActorModel[] | undefined> {
     return this.filmActorDatasource.get(actorId, filmId);
   }
-  public deleteByActorId(actorId: number): Promise<boolean> {
-    return this.filmActorDatasource.deleteByActorId(actorId);
+  public async deleteByActorId(actorId: number): Promise<boolean> {
+    return await this.filmActorDatasource.deleteByActorId(actorId);
+  }
+
+  public async create(filmActorMode: FilmActorModel): Promise<void> {
+    await this.filmActorDatasource.create(filmActorMode);
   }
 }

@@ -1,84 +1,123 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { FilmRating } from '../../domain/enums/film-rating';
 import {
   IsInt,
   IsString,
   IsOptional,
-  IsNumber,
   IsDate,
   IsArray,
-  Length,
+  IsEnum,
 } from 'class-validator';
 
 export class FilmDto {
-  @ApiProperty()
   @IsInt()
-  film_id!: number; // New property for film ID
+  film_id!: number;
 
-  @ApiProperty()
   @IsString()
-  @Length(1, 100, {
-    message: 'Title must be between 1 and 100 characters long.',
-  })
-  title: string; // New property for film title
+  title: string;
 
-  @ApiProperty()
-  @IsOptional()
   @IsString()
-  description?: string; // Optional property for film description
-
-  @ApiProperty()
   @IsOptional()
-  @IsInt()
-  release_year?: number; // Optional property for release year
+  description?: string;
 
-  @ApiProperty()
   @IsInt()
-  language_id!: number; // New property for language ID
-
-  @ApiProperty()
   @IsOptional()
+  release_year?: number;
+
   @IsInt()
-  original_language_id?: number; // Optional property for original language ID
+  language_id!: number;
 
-  @ApiProperty()
   @IsInt()
-  rental_duration!: number; // New property for rental duration
-
-  @ApiProperty()
-  @IsNumber()
-  rental_rate!: number; // New property for rental rate
-
-  @ApiProperty()
   @IsOptional()
+  original_language_id?: number;
+
   @IsInt()
-  length?: number; // Optional property for film length
+  rental_duration!: number;
 
-  @ApiProperty()
-  @IsNumber()
-  replacement_cost!: number; // New property for replacement cost
+  @IsInt()
+  rental_rate!: number;
 
-  @ApiProperty()
+  @IsInt()
   @IsOptional()
+  length?: number;
+
+  @IsInt()
+  replacement_cost!: number;
+
   @IsString()
-  rating?: string; // Optional property for film rating
+  @IsOptional()
+  rating?: string;
 
-  @ApiProperty()
   @IsDate()
-  last_update!: Date; // New property for last update
+  last_update!: Date;
 
-  @ApiProperty()
-  @IsOptional()
   @IsArray()
-  special_features?: string[]; // Optional property for special features
-
-  @ApiProperty()
+  @IsString({ each: true })
   @IsOptional()
+  special_features?: string[];
+
   @IsString()
-  fulltext?: string; // Optional property for fulltext
+  @IsOptional()
+  fulltext?: string;
 }
 
 export class GetFilmParamDto {
-  @IsString()
-  @ApiProperty()
+  @IsInt()
   film_id!: number;
+}
+
+export class CreateFilmActorParamDto {
+  @IsInt()
+  film_id!: number;
+
+  @IsInt()
+  actor_id!: number;
+}
+
+export class UpdateFilmDto {
+  @IsString()
+  title: string;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+
+  @IsInt()
+  @IsOptional()
+  release_year?: number;
+
+  @IsInt()
+  language_id!: number;
+
+  @IsInt()
+  @IsOptional()
+  original_language_id?: number;
+
+  @IsInt()
+  rental_duration!: number;
+
+  @IsInt()
+  rental_rate!: number;
+
+  @IsInt()
+  @IsOptional()
+  length?: number;
+
+  @IsInt()
+  replacement_cost!: number;
+
+  @IsEnum(FilmRating)
+  @IsOptional()
+  rating?: FilmRating;
+
+  @IsDate()
+  last_update!: Date;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  special_features?: string[];
+
+  @IsString()
+  @IsOptional()
+  fulltext?: string;
 }

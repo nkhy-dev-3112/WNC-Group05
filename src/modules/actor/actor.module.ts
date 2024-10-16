@@ -30,5 +30,6 @@ import { FilmModule } from '../film/film.module';
     CreateActorUsecase,
     DeleteActorUsecase,
   ],
+  exports: [GetActorUsecase],
 })
 export class ActorModule {}

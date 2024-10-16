@@ -7,10 +7,11 @@ import { LanguageDatasource } from './data/datasources/language-datasource';
 import { CreateLanguageUsecase } from './domain/usecases/create-language-usecase';
 import { GetLanguageUsecase } from './domain/usecases/get-language-usecase';
 import { UpdateLanguageUsecase } from './domain/usecases/update-language-usecase';
+import { LanguageController } from './app/controllers/api/v1/language-controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([LanguageEntity])],
-  controllers: [],
+  controllers: [LanguageController],
   providers: [
     {
       provide: LanguageRepository,
@@ -21,5 +22,6 @@ import { UpdateLanguageUsecase } from './domain/usecases/update-language-usecase
     GetLanguageUsecase,
     UpdateLanguageUsecase,
   ],
+  exports: [GetLanguageUsecase],
 })
 export class LanguageModule {}

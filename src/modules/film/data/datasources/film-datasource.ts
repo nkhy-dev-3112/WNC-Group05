@@ -47,6 +47,7 @@ export class FilmDatasource {
     originalLanguageId: number | undefined,
     rentalDuration: number,
     rentalRate: number | undefined,
+    length: number | undefined,
     replacementCost: number | undefined,
     rating: FilmRating | undefined,
     specialFeatures: string[] | undefined,
@@ -63,6 +64,7 @@ export class FilmDatasource {
       }),
       ...(rentalDuration !== undefined && { rental_duration: rentalDuration }),
       ...(rentalRate !== undefined && { rental_rate: rentalRate }),
+      ...(length !== undefined && { length: length }),
       ...(replacementCost !== undefined && {
         replacement_cost: replacementCost,
       }),
