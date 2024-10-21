@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class LanguageDto {
   @IsNumber()
-  @ApiProperty({ example: '1' })
+  @ApiProperty({ example: 1 })
   language_id: number;
 
   @IsString()
