@@ -15,4 +15,12 @@ export class AppController {
   public getHello() {
     return this.getInformationUsecase.getHello();
   }
+
+  /**
+   * Demo error tracking
+   */
+  @Get('/debug-sentry')
+  getError() {
+    throw new Error('My first Sentry error!');
+  }
 }

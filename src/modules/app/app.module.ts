@@ -8,7 +8,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
-
+import { SentryModule } from '@sentry/nestjs/setup';
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [database, app] }),
@@ -27,6 +27,7 @@ import { ActorModule } from '../actor/actor.module';
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
+    SentryModule.forRoot(),
     forwardRef(() => ActorModule),
   ],
   controllers: [AppController],
