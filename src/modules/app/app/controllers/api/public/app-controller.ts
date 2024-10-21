@@ -1,6 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { GetInformationUsecase } from '../../../../domain/usecases/get-infomation-usecase';
 import { ApiTags } from '@nestjs/swagger';
+import { ErrorException } from '../../../../../../exceptions/error-exception';
+import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Welcome')
 @Controller()
@@ -21,6 +23,10 @@ export class AppController {
    */
   @Get('/debug-sentry')
   getError() {
-    throw new Error('My first Sentry error!');
+    throw new ErrorException(
+      ErrorCode.UNDEFINED_ERROR,
+      'This is my first error',
+      undefined,
+    );
   }
 }

@@ -8,10 +8,14 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
-import { SentryModule } from '@sentry/nestjs/setup';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
+import { APP_FILTER } from '@nestjs/core';
+import * as Sentry from '@sentry/nestjs';
+import { nodeProfilingIntegration } from '@sentry/profiling-node';
+import sentry from './config/sentry';
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [database, app] }),
+    ConfigModule.forRoot({ load: [database, app, sentry] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -31,6 +35,28 @@ import { SentryModule } from '@sentry/nestjs/setup';
     forwardRef(() => ActorModule),
   ],
   controllers: [AppController],
-  providers: [GetInformationUsecase],
+  providers: [
+    GetInformationUsecase,
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private configService: ConfigService) {
+    this.initializeSentry();
+  }
+
+  initializeSentry() {
+    // Initialize Sentry with ConfigService
+    Sentry.init({
+      dsn: this.configService.get<string>('sentry.dsn'), // Fetch DSN from .env file
+      integrations: [nodeProfilingIntegration()],
+      // Tracing configuration
+      tracesSampleRate: 1.0, // Capture 100% of the transactions
+      // Set sampling rate for profiling (relative to tracesSampleRate)
+      profilesSampleRate: 1.0,
+    });
+  }
+}
