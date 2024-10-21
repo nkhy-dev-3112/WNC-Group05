@@ -103,11 +103,6 @@ export class ActorController {
     description: 'Actor updated successfully',
     example: true,
   })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor not found',
-    example: { message: 'Actor not found' },
-  })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
@@ -172,11 +167,6 @@ export class ActorController {
     status: HttpStatus.OK,
     description: 'Actor deleted successfully',
     example: true,
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor not found',
-    example: { message: 'Actor not found' },
   })
   @ApiParam({
     name: 'actor_id',
