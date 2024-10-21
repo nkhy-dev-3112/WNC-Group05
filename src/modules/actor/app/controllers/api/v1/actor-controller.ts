@@ -27,6 +27,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { ActorModel } from '../../../../domain/models/actor-model';
 
 @ApiTags('Actor')
 @Controller({ path: 'api/actor/v1/me' })
@@ -44,20 +45,14 @@ export class ActorController {
    */
   @ApiOperation({ summary: 'Get an actor by their ID' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Actor found',
-    example: { id: 1, first_name: 'John', last_name: 'Doe' },
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor not found',
-    example: { message: 'Actor not found' },
+    type: ActorModel,
   })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
-    example: 1,
   })
   @Get('id/:actor_id')
   async get(@Param() param: GetActorParamDto, @Res() res: Response) {
@@ -69,7 +64,7 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: 'Actor not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
       return;
     }
 
@@ -81,17 +76,9 @@ export class ActorController {
    */
   @ApiOperation({ summary: 'Get a list of all actors' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Actor list found',
-    example: [
-      { id: 1, first_name: 'John', last_name: 'Doe' },
-      { id: 2, first_name: 'Jane', last_name: 'Doe' },
-    ],
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor list not found',
-    example: { message: 'Actor list not found' },
+    type: [ActorModel],
   })
   @Get('/')
   async getList(@Res() res: Response) {
@@ -112,7 +99,7 @@ export class ActorController {
    */
   @ApiOperation({ summary: 'Update an actor' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Actor updated successfully',
     example: true,
   })
@@ -120,17 +107,10 @@ export class ActorController {
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
-    example: 1,
   })
   @ApiBody({
     description: 'Actor update details',
     type: UpdateActorDto,
-    schema: {
-      example: {
-        first_name: 'John',
-        last_name: 'Doe',
-      },
-    },
   })
   @Put('id/:actor_id')
   async update(
@@ -162,19 +142,13 @@ export class ActorController {
    */
   @ApiOperation({ summary: 'Create a new actor' })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     description: 'Actor created successfully',
-    example: { id: 1, first_name: 'John', last_name: 'Doe' },
+    type: ActorModel,
   })
   @ApiBody({
     description: 'Actor details',
     type: CreateActorDto,
-    schema: {
-      example: {
-        first_name: 'John',
-        last_name: 'Doe',
-      },
-    },
   })
   @Post('/')
   async create(@Body() body: CreateActorDto, @Res() res: Response) {
@@ -182,7 +156,7 @@ export class ActorController {
       body.first_name,
       body.last_name,
     );
-    res.status(HttpStatus.OK).json(actor.toJson());
+    res.status(HttpStatus.CREATED).json(actor.toJson());
   }
 
   /**
@@ -190,7 +164,7 @@ export class ActorController {
    */
   @ApiOperation({ summary: 'Delete an actor' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Actor deleted successfully',
     example: true,
   })
@@ -198,7 +172,6 @@ export class ActorController {
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
-    example: 1,
   })
   @Delete('id/:actor_id')
   async delete(@Param() param: GetActorParamDto, @Res() res: Response) {

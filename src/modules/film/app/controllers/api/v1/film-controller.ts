@@ -28,6 +28,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { FilmModel } from '../../../../domain/models/film-model';
 
 @ApiTags('Film')
 @Controller({ path: 'api/user/v1/film' })
@@ -46,12 +47,12 @@ export class FilmController {
    */
   @ApiOperation({ summary: 'Get a film by its ID' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Film found',
-    example: { id: 1, title: 'The Shawshank Redemption', release_year: 1994 },
+    type: FilmModel,
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Film not found',
     example: { message: 'Film not found' },
   })
@@ -59,7 +60,6 @@ export class FilmController {
     name: 'film_id',
     description: 'The ID of the film to retrieve',
     required: true,
-    example: 1,
   })
   @Get('id/:film_id')
   async get(@Param() param: GetFilmParamDto, @Res() res: Response) {
@@ -71,7 +71,7 @@ export class FilmController {
     ]);
 
     if (!film) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
       return;
     }
 
@@ -83,22 +83,22 @@ export class FilmController {
    */
   @ApiOperation({ summary: 'Update an existing film' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Film updated successfully',
     example: true,
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Film not found',
     example: { message: 'Film not found' },
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Language not found',
     example: { message: 'Language not found' },
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Original language not found',
     example: { message: 'Original language not found' },
   })
@@ -106,17 +106,10 @@ export class FilmController {
     name: 'film_id',
     description: 'The ID of the film to update',
     required: true,
-    example: 1,
   })
   @ApiBody({
     description: 'Film update details',
     type: UpdateFilmDto,
-    schema: {
-      example: {
-        title: 'The Shawshank Redemption',
-        release_year: 1994,
-      },
-    },
   })
   @Put('id/:film_id')
   async update(
@@ -180,26 +173,26 @@ export class FilmController {
   }
 
   /**
-   * Create film actor
+   * Create film actor association
    */
-  @ApiOperation({ summary: 'Create a new film actor association' })
+  @ApiOperation({ summary: 'Add an actor to an existing film' })
   @ApiResponse({
-    status: 201,
+    status: HttpStatus.CREATED,
     description: 'Film actor created successfully',
-    example: { id: 1, film_id: 1, actor_id: 1 },
+    type: FilmActorModel,
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Actor not found',
     example: { message: 'Actor not found' },
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Film not found',
     example: { message: 'Film not found' },
   })
   @ApiResponse({
-    status: 404,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Film actor not found',
     example: { message: 'Film actor not found' },
   })
@@ -207,13 +200,11 @@ export class FilmController {
     name: 'film_id',
     description: 'The ID of the film',
     required: true,
-    example: 1,
   })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
     required: true,
-    example: 1,
   })
   @Post('id/:film_id/actor/:actor_id')
   async createFilmActor(
@@ -234,13 +225,13 @@ export class FilmController {
     ]);
 
     if (!actor) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: 'Actor not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
     }
     if (!film) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
     }
     if (!filmActor) {
-      res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
+      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
     }
 
     await this.createFilmActorUsecase.call(filmActor);
