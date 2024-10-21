@@ -10,6 +10,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   @WithSentry()
   catch(exception: any, host: ArgumentsHost) {
+    console.log(exception);
     let errorException: ErrorException;
     let httpStatusCode: number;
 
