@@ -1,4 +1,4 @@
-import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { FilmRating } from '../../domain/enums/film-rating';
 import {
   IsInt,
@@ -13,9 +13,8 @@ import { Transform } from 'class-transformer';
 import { ActorDto } from '../../../actor/app/dtos/actor-dto';
 
 export class FilmDto {
-  @ApiProperty({ example: '1' })
-  @IsInt({ message: 'film_id must be an integer' })
-  @Transform(({ value }) => parseInt(value))
+  @ApiProperty({ example: 1 })
+  @IsInt()
   film_id!: number;
 
   @ApiProperty({ example: 'Inception' })
@@ -47,7 +46,7 @@ export class FilmDto {
   rental_duration!: number;
 
   @ApiProperty({ example: 9.99 })
-  @IsNumber()
+  @IsInt()
   rental_rate!: number;
 
   @ApiProperty({ example: 148, required: false })
@@ -64,6 +63,10 @@ export class FilmDto {
   @IsEnum(FilmRating)
   rating?: FilmRating;
 
+  @ApiProperty({ example: '2023-10-21T10:00:00Z' })
+  @IsDate()
+  last_update!: Date;
+
   @ApiProperty({
     example: ['Deleted scenes', 'Behind the scenes'],
     required: false,
@@ -72,14 +75,19 @@ export class FilmDto {
   @IsString({ each: true })
   @IsOptional()
   special_features?: string[];
+
+  @ApiProperty({ example: 'Inception full-text search data', required: false })
+  @IsString()
+  @IsOptional()
+  fulltext?: string;
 }
 
 export class GetFilmParamDto extends PickType(FilmDto, ['film_id']) {}
 
-export class CreateFilmActorParamDto extends PickType(
-  IntersectionType(FilmDto, ActorDto),
-  ['film_id', 'actor_id'],
-) {}
+export class CreateFilmActorParamDto extends PickType(FilmDto, ['film_id']) {
+  @IsInt()
+  actor_id!: number;
+}
 
 export class UpdateFilmDto extends PickType(FilmDto, [
   'title',
@@ -92,5 +100,7 @@ export class UpdateFilmDto extends PickType(FilmDto, [
   'rating',
   'length',
   'replacement_cost',
+  'last_update',
   'special_features',
+  'fulltext',
 ]) {}

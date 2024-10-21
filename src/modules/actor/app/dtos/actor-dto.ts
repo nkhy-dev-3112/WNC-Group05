@@ -3,9 +3,14 @@ import { Transform } from 'class-transformer';
 import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
+<<<<<<< HEAD
   @ApiProperty({ example: '1' })
   @IsInt({ message: 'actor_id must be an integer' })
   @Transform(({ value }) => parseInt(value))
+=======
+  @ApiProperty({ example: 1 })
+  @IsInt()
+>>>>>>> a003b2a (Chery pick)
   actor_id!: number;
 
   @ApiProperty({ example: 'John' })

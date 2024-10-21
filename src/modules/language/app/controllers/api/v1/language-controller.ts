@@ -121,12 +121,20 @@ export class LanguageController {
     name: 'language_id',
     description: 'The ID of the language to update',
     required: true,
+<<<<<<< HEAD
     type: Number,
   })
   @ApiBody({
     description: 'Language update details',
     type: UpdateLanguageDto,
   })
+=======
+  })
+  @ApiBody({
+    description: 'Language update details',
+    type: UpdateLanguageDto,
+  })
+>>>>>>> a003b2a (Chery pick)
   @Put('id/:language_id')
   async update(
     @Param() param: GetLanguageParamDto,

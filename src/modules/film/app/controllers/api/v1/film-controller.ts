@@ -72,6 +72,10 @@ export class FilmController {
 
     if (!film) {
       res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
+<<<<<<< HEAD
+=======
+      return;
+>>>>>>> a003b2a (Chery pick)
     }
 
     res.status(HttpStatus.OK).json(film.toJson());
