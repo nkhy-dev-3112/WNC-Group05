@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FilmActorEntity } from './entities/film-actor-entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { FilmActorModel } from '../../domain/models/film-actor-model';
-import { FilmCategoryModel } from '../../domain/models/film-category-model';
 
 @Injectable()
 export class FilmActorDataSource {

@@ -3,9 +3,6 @@ import { WithSentry } from '@sentry/nestjs';
 import { ErrorCode } from './error-code';
 import { Response, Request } from 'express'; // Import Request
 import { ErrorException } from './error-exception';
-import * as Sentry from '@sentry/node';
-import { level } from 'winston';
-import { SentryService } from '@sentry/nestjs/setup';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -16,7 +13,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let errorException: ErrorException;
     let httpStatusCode: number;
 
-    if (exception instanceof ErrorException) {
+    if (exception.status === 404) {
+      httpStatusCode = 404;
+      errorException = new ErrorException(
+        ErrorCode.RESOURCE_NOT_FOUND,
+        'Resource not found',
+        'The requested resource could not be found.',
+      );
+    } else if (exception instanceof ErrorException) {
       errorException = exception;
       httpStatusCode = exception.httpStatusCode;
     } else {
