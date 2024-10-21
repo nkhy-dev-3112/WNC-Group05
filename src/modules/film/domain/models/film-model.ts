@@ -2,44 +2,146 @@ import { CategoryModel } from '../../../category/domain/models/category-model';
 import { LanguageModel } from '../../../language/domain/models/language-model';
 import { ActorModel } from '../../../actor/domain/models/actor-model';
 import { FilmRating } from '../enums/film-rating';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class FilmModel {
+  @ApiProperty({
+    name: 'film_id',
+    example: 1,
+    description: 'Unique identifier for the film',
+  })
   public readonly filmId: number;
 
+  @ApiProperty({
+    name: 'title',
+    example: 'Inception',
+    description: 'Title of the film',
+  })
   public readonly title: string;
 
+  @ApiProperty({
+    name: 'description',
+    example: 'A mind-bending thriller',
+    required: false,
+    description: 'Short description of the film',
+  })
   public readonly description: string | undefined;
 
+  @ApiProperty({
+    name: 'release_year',
+    example: 2010,
+    required: false,
+    description: 'Year the film was released',
+  })
   public readonly releaseYear: number | undefined;
 
+  @ApiProperty({
+    name: 'language_id',
+    example: 1,
+    description: 'Language ID for the primary language of the film',
+  })
   public readonly languageId: number;
 
+  @ApiProperty({
+    name: 'original_language_id',
+    example: 2,
+    required: false,
+    description: 'ID of the original language, if applicable',
+  })
   public readonly originalLanguageId: number | undefined;
 
+  @ApiProperty({
+    name: 'rental_duration',
+    example: 3,
+    description: 'Duration of the film rental in days',
+  })
   public readonly rentalDuration: number;
 
+  @ApiProperty({
+    name: 'rental_rate',
+    example: 9.99,
+    description: 'Rate charged for renting the film',
+  })
   public readonly rentalRate: number;
 
+  @ApiProperty({
+    name: 'length',
+    example: 148,
+    required: false,
+    description: 'Length of the film in minutes',
+  })
   public readonly length: number | undefined;
 
+  @ApiProperty({
+    name: 'replacement_cost',
+    example: 20.0,
+    description: 'Cost to replace the film if damaged',
+  })
   public readonly replacementCost: number;
 
+  @ApiProperty({
+    name: 'rating',
+    example: 'PG-13',
+    enum: FilmRating,
+    required: false,
+    description: 'Rating of the film',
+  })
   public readonly rating: FilmRating | undefined;
 
+  @ApiProperty({
+    name: 'last_update',
+    example: new Date(),
+    description: 'Date of the last update to the film record',
+  })
   public readonly lastUpdate: Date;
 
+  @ApiProperty({
+    name: 'special_features',
+    example: ['Deleted scenes', 'Behind the scenes'],
+    required: false,
+    description: 'Special features included with the film',
+  })
   public readonly specialFeatures: string[] | undefined;
 
+  @ApiProperty({
+    name: 'fulltext',
+    example: 'Inception full-text search data',
+    required: false,
+    description: 'Full-text search information',
+  })
   public readonly fulltext: string | undefined;
 
   /** Relations */
-
+  @ApiProperty({
+    name: 'categories',
+    type: () => [CategoryModel],
+    required: false,
+    description: 'Categories the film belongs to',
+  })
   public readonly categories: CategoryModel[] | undefined;
 
+  @ApiProperty({
+    name: 'language',
+    type: () => LanguageModel,
+    required: false,
+    description: 'Primary language of the film',
+  })
   public readonly language: LanguageModel | undefined;
 
-  public readonly orginalLanguage: LanguageModel | undefined;
+  @ApiProperty({
+    name: 'original_language',
+    type: () => LanguageModel,
+    required: false,
+    description: 'Original language of the film',
+  })
+  public readonly originalLanguage: LanguageModel | undefined;
 
+  @ApiProperty({
+    name: 'actors',
+    type: () => [ActorModel],
+    required: false,
+    description: 'Actors who appeared in the film',
+  })
   public readonly actors: ActorModel[] | undefined;
 
   constructor(
@@ -78,7 +180,7 @@ export class FilmModel {
     this.fulltext = fulltext;
     this.categories = categories;
     this.language = language;
-    this.orginalLanguage = orginalLanguage;
+    this.originalLanguage = orginalLanguage;
     this.actors = actors;
   }
 
@@ -100,7 +202,7 @@ export class FilmModel {
       fulltext: this.fulltext,
       categories: this.categories?.map((cat) => cat?.toJson()),
       language: this.language?.toJson(),
-      original_language: this.orginalLanguage?.toJson(),
+      original_language: this.originalLanguage?.toJson(),
       actors: this.actors?.map((actor) => actor?.toJson()),
     };
   }

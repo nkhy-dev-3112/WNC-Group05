@@ -24,6 +24,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { LanguageModel } from '../../../../domain/models/language-model';
 
 @ApiTags('Language')
 @Controller({ path: 'api/user/v1/language' })
@@ -41,7 +42,7 @@ export class LanguageController {
   @ApiResponse({
     status: 201,
     description: 'Language created successfully',
-    example: { name: 'Spanish' },
+    type: LanguageModel,
   })
   @ApiResponse({
     status: 400,
@@ -70,12 +71,12 @@ export class LanguageController {
    */
   @ApiOperation({ summary: 'Get a language by its ID' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Language found',
     example: { id: 1, name: 'English' },
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Language not found',
     example: { message: 'Language not found' },
   })
@@ -83,12 +84,11 @@ export class LanguageController {
     name: 'language_id',
     description: 'The ID of the language to retrieve',
     required: true,
-    example: 1,
   })
   @Get('id/:language_id')
   async get(@Param() param: GetLanguageParamDto, @Res() res: Response) {
     const language = await this.getLanguageUsecase.call(
-      parseInt(param.language_id),
+      param.language_id,
       undefined,
     );
 
@@ -107,12 +107,12 @@ export class LanguageController {
    */
   @ApiOperation({ summary: 'Update an existing language' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'Language updated successfully',
     example: true,
   })
   @ApiResponse({
-    status: 400,
+    status: HttpStatus.BAD_REQUEST,
     description: 'Language not found',
     example: { message: 'Language not found' },
   })
@@ -120,9 +120,11 @@ export class LanguageController {
     name: 'language_id',
     description: 'The ID of the language to update',
     required: true,
-    example: 1,
   })
-  @ApiBody({ type: UpdateLanguageDto, description: 'Language update details' })
+  @ApiBody({
+    description: 'Language update details',
+    type: UpdateLanguageDto,
+  })
   @Put('id/:language_id')
   async update(
     @Param() param: GetLanguageParamDto,
@@ -130,7 +132,7 @@ export class LanguageController {
     @Res() res: Response,
   ) {
     const language = await this.getLanguageUsecase.call(
-      parseInt(param.language_id),
+      param.language_id,
       undefined,
     );
 
