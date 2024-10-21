@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && npm run sentry:sourcemaps && npm run sentry:sourcemaps && npm run sentry:sourcemaps",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org hcmus-5n --project sakila-project ./dist && sentry-cli sourcemaps upload --org hcmus-5n --project sakila-project ./dist"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -26,6 +27,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.4.2",
     "@nestjs/typeorm": "^10.0.2",
+    "@sentry/cli": "^2.37.0",
     "@sentry/nestjs": "^8.34.0",
     "@sentry/profiling-node": "^8.34.0",
     "class-transformer": "^0.5.1",

@@ -1,10 +1,10 @@
-import './instrument';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { AppModule } from './modules/app/app.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AllExceptionsFilter } from './exceptions/all-exceptions-filter';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -16,6 +16,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   await setupSwagger(app);
 

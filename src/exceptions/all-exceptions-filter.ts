@@ -1,14 +1,16 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
 import { WithSentry } from '@sentry/nestjs';
-import * as Sentry from '@sentry/nestjs';
 import { ErrorCode } from './error-code';
+import { Response, Request } from 'express'; // Import Request
 import { ErrorException } from './error-exception';
+import * as Sentry from '@sentry/node';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AllExceptionsFilter.name);
+
   @WithSentry()
   catch(exception: any, host: ArgumentsHost) {
-    console.log(exception);
     let errorException: ErrorException;
     let httpStatusCode: number;
 
@@ -26,5 +28,48 @@ export class AllExceptionsFilter implements ExceptionFilter {
       );
       httpStatusCode = exception.status ?? errorException.httpStatusCode;
     }
+
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+
+    const logData = {
+      timestamp: new Date().toISOString(),
+      method: request.method,
+      path: request.url,
+      requestBody: request.body,
+      query: request.query,
+      params: request.params,
+      headers: request.headers,
+      responseStatus: httpStatusCode,
+      errorCode: errorException.code,
+      errorMessage: errorException.message,
+    };
+
+    if (httpStatusCode >= 500 || !(exception instanceof ErrorException)) {
+      Sentry.captureException(exception, {
+        extra: logData,
+      });
+      this.logger.error(logData);
+      this.logger.error(exception);
+    } else if (httpStatusCode >= 400) {
+      this.logger.warn(logData);
+      this.logger.warn(exception);
+    }
+
+    try {
+      response.setHeader('X-Error-Message', errorException.message);
+    } catch (headerError) {
+      this.logger.error('Error setting X-Error-Message header:', headerError);
+      response.setHeader(
+        'X-Error-Message',
+        'Error setting error message header',
+      );
+    }
+
+    return response
+      .setHeader('X-Error-Code', errorException.code)
+      .status(httpStatusCode)
+      .json(errorException.getErrors());
   }
 }
