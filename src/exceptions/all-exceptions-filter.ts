@@ -4,6 +4,8 @@ import { ErrorCode } from './error-code';
 import { Response, Request } from 'express'; // Import Request
 import { ErrorException } from './error-exception';
 import * as Sentry from '@sentry/node';
+import { level } from 'winston';
+import { SentryService } from '@sentry/nestjs/setup';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -47,9 +49,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     };
 
     if (httpStatusCode >= 500 || !(exception instanceof ErrorException)) {
-      Sentry.captureException(exception, {
-        extra: logData,
-      });
       this.logger.error(logData);
       this.logger.error(exception);
     } else if (httpStatusCode >= 400) {

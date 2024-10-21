@@ -116,11 +116,6 @@ export class ActorController {
     description: 'Actor updated successfully',
     example: true,
   })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor not found',
-    example: { message: 'Actor not found' },
-  })
   @ApiParam({
     name: 'actor_id',
     description: 'The ID of the actor',
@@ -132,8 +127,8 @@ export class ActorController {
     type: UpdateActorDto,
     schema: {
       example: {
-        name: 'John Doe',
-        email: 'john@example.com',
+        first_name: 'John',
+        last_name: 'Doe',
       },
     },
   })
@@ -198,11 +193,6 @@ export class ActorController {
     status: 200,
     description: 'Actor deleted successfully',
     example: true,
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Actor not found',
-    example: { message: 'Actor not found' },
   })
   @ApiParam({
     name: 'actor_id',

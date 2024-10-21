@@ -37,10 +37,10 @@ import sentry from './config/sentry';
   controllers: [AppController],
   providers: [
     GetInformationUsecase,
-    {
-      provide: APP_FILTER,
-      useClass: SentryGlobalFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: SentryGlobalFilter,
+    // },
   ],
 })
 export class AppModule {
@@ -49,14 +49,12 @@ export class AppModule {
   }
 
   initializeSentry() {
-    // Initialize Sentry with ConfigService
     Sentry.init({
-      dsn: this.configService.get<string>('sentry.dsn'), // Fetch DSN from .env file
+      dsn: this.configService.get<string>('sentry.dsn'),
       integrations: [nodeProfilingIntegration()],
-      // Tracing configuration
-      tracesSampleRate: 1.0, // Capture 100% of the transactions
-      // Set sampling rate for profiling (relative to tracesSampleRate)
+      tracesSampleRate: 1.0,
       profilesSampleRate: 1.0,
+      environment: 'localhost',
     });
   }
 }
