@@ -8,8 +8,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
-import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
-import { APP_FILTER } from '@nestjs/core';
+import { SentryModule } from '@sentry/nestjs/setup';
 import * as Sentry from '@sentry/nestjs';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import sentry from './config/sentry';
@@ -35,13 +34,7 @@ import sentry from './config/sentry';
     forwardRef(() => ActorModule),
   ],
   controllers: [AppController],
-  providers: [
-    GetInformationUsecase,
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: SentryGlobalFilter,
-    // },
-  ],
+  providers: [GetInformationUsecase],
 })
 export class AppModule {
   constructor(private configService: ConfigService) {

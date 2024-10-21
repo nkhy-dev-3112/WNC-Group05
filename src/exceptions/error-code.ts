@@ -3,4 +3,5 @@ export enum ErrorCode {
   VALIDATION_ERROR = '2|400',
   FORBIDDEN_ERROR = '3|403',
   DATABASE_ERROR = '4|500',
+  RESOURCE_NOT_FOUND = '5|404',
 }

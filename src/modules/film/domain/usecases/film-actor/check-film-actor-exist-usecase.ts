@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { FilmActorRepository } from '../../repositories/film-actor-repository';
 import { FilmActorModel } from '../../models/film-actor-model';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class CheckFilmActorExistUsecase {
