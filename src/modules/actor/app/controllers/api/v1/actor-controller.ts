@@ -59,7 +59,7 @@ export class ActorController {
   @Get('id/:actor_id')
   async get(@Param() param: GetActorParamDto, @Res() res: Response) {
     const actor = await this.getActorUsecase.call(
-      parseInt(param.actor_id),
+      param.actor_id,
       undefined,
       undefined,
       ['films'],
@@ -125,7 +125,7 @@ export class ActorController {
     @Res() res: Response,
   ) {
     const actor = await this.getActorUsecase.call(
-      parseInt(param.actor_id),
+      param.actor_id,
       undefined,
       undefined,
       undefined,
@@ -186,7 +186,7 @@ export class ActorController {
   @Delete('id/:actor_id')
   async delete(@Param() param: GetActorParamDto, @Res() res: Response) {
     const actor = await this.getActorUsecase.call(
-      parseInt(param.actor_id),
+      param.actor_id,
       undefined,
       undefined,
       ['films'],
