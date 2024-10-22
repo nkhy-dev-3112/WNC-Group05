@@ -1,4 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { FilmModel } from '../../../film/domain/models/film-model';
 
 export class CategoryModel {
   @ApiProperty({
@@ -22,10 +23,25 @@ export class CategoryModel {
   })
   lastUpdate: Date;
 
-  constructor(categoryId: number, name: string, lastUpdate: Date) {
+  /** Relations */
+
+  @ApiPropertyOptional({
+    name: 'films',
+    type: [FilmModel],
+    description: 'List of films the actor has this category',
+  })
+  public readonly films: FilmModel[];
+
+  constructor(
+    categoryId: number,
+    name: string,
+    lastUpdate: Date,
+    films: FilmModel[] | undefined,
+  ) {
     this.categoryId = categoryId;
     this.name = name;
     this.lastUpdate = lastUpdate;
+    this.films = films;
   }
 
   public toJson(): Record<string, any> {
@@ -33,6 +49,7 @@ export class CategoryModel {
       category_id: this.categoryId,
       name: this.name,
       last_update: this.lastUpdate,
+      films: this?.films.map((film) => film.toJson()),
     };
   }
 }

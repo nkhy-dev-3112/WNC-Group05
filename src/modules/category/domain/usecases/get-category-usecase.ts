@@ -9,7 +9,8 @@ export class GetCategoryUsecase {
   public async call(
     categoryId: number | undefined,
     name: string | undefined,
+    relations: string[] | undefined,
   ): Promise<CategoryModel | undefined> {
-    return await this.categoryRepository.get(categoryId, name);
+    return await this.categoryRepository.get(categoryId, name, relations);
   }
 }

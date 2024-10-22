@@ -15,8 +15,9 @@ export class CategoryRepositoryImpl extends CategoryRepository {
   public async get(
     categoryId: number | undefined,
     name: string | undefined,
+    relations: string[] | undefined,
   ): Promise<CategoryModel | undefined> {
-    return this.categoryDatasource.get(categoryId, name);
+    return this.categoryDatasource.get(categoryId, name, relations);
   }
   public async update(
     category: CategoryModel,

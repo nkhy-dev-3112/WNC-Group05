@@ -24,6 +24,7 @@ export class CategoryDatasource {
   public async get(
     categoryId: number | undefined,
     name: string | undefined,
+    relations: string[] | undefined,
   ): Promise<CategoryModel | undefined> {
     const condition: FindOptionsWhere<CategoryEntity> = {};
 
@@ -38,6 +39,7 @@ export class CategoryDatasource {
     return (
       await this.categoryRepository.findOne({
         where: condition,
+        relations: relations,
       })
     )?.toModel();
   }

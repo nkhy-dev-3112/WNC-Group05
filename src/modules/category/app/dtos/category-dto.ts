@@ -1,12 +1,14 @@
-import { PickType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CategoryDto {
   @IsString()
-  category_id: string;
+  @ApiProperty({ example: '1' })
+  category_id!: string;
 
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ example: 'Scary' })
   name!: string;
 }
 

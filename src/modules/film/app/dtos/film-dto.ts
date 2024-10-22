@@ -9,6 +9,7 @@ import {
   IsEnum,
   IsNumber,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class FilmDto {
   @ApiProperty({ example: '1' })
@@ -17,6 +18,7 @@ export class FilmDto {
 
   @ApiProperty({ example: 'Inception' })
   @IsString()
+  @Transform(({ value }) => value.trim().toUpperCase())
   title: string;
 
   @ApiProperty({ example: 'A mind-bending thriller', required: false })

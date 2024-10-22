@@ -5,6 +5,7 @@ export abstract class CategoryRepository {
   public abstract get(
     categoryId: number | undefined,
     name: string | undefined,
+    relations: string[] | undefined,
   ): Promise<CategoryModel | undefined>;
   public abstract update(
     category: CategoryModel,

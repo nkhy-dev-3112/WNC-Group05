@@ -10,7 +10,7 @@ export class CreateCategoryUsecase {
     const now = new Date();
     const maxcategoryId = await this.categoryRepository.getMaxId();
 
-    const category = new CategoryModel(maxcategoryId + 1, name, now);
+    const category = new CategoryModel(maxcategoryId + 1, name, now, undefined);
     await this.categoryRepository.create(category);
 
     return category;
