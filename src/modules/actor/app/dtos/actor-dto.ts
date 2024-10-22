@@ -24,7 +24,7 @@ export class ActorDto {
 export class GetActorParamDto {
   @IsString()
   @ApiProperty()
-  actor_id!: number;
+  actor_id!: string;
 }
 
 export class UpdateActorDto extends PickType(ActorDto, [
