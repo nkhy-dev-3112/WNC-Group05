@@ -7,7 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ErrorCode } from './error-code';
-import { Response, Request } from 'express'; // Import Request
+import { Response, Request } from 'express';
 import { ErrorException } from './error-exception';
 import * as Sentry from '@sentry/node';
 import { CaptureContext } from '@sentry/types';

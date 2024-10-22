@@ -5,16 +5,14 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Request, Response } from 'express';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler<any>,
-  ): Observable<any> | Promise<Observable<any>> {
+
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const ctx = context.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
@@ -24,7 +22,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const url = request.url;
     const body = request.body;
 
-    this.logger.verbose(
+    this.logger.debug(
       `[${method}] ${url} - Request Body: ${JSON.stringify(body)}`,
     );
 
@@ -34,8 +32,8 @@ export class LoggingInterceptor implements NestInterceptor {
       const responseTime = Date.now() - now;
       const statusCode = response.statusCode;
 
-      this.logger.verbose(
-        `[${method}] ${url} - Status: ${statusCode} - Response Time: ${responseTime}ms - Response data: \n ${JSON.stringify(data, null, 2)}`,
+      this.logger.debug(
+        `[${method}] ${url} - Status: ${statusCode} - Response Time: ${responseTime}ms`,
       );
 
       return originalJson.call(response, data);
