@@ -28,9 +28,11 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { ActorModel } from '../../../../domain/models/actor-model';
+import { LogicalException } from '../../../../../../exceptions/logical-exception';
+import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Actor')
-@Controller({ path: 'api/actor/v1/me' })
+@Controller({ path: 'api/user/v1/actor' })
 export class ActorController {
   constructor(
     private readonly getActorUsecase: GetActorUsecase,
@@ -64,8 +66,11 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
-      return;
+      throw new LogicalException(
+        ErrorCode.ACTOR_NOT_FOUND,
+        'Actor not found',
+        undefined,
+      );
     }
 
     res.json(actor.toJson());
@@ -85,10 +90,11 @@ export class ActorController {
     const actorList = await this.getActorListUsecase.call();
 
     if (!actorList) {
-      res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Actor list not found' });
-      return;
+      throw new LogicalException(
+        ErrorCode.ACTOR_NOT_FOUND,
+        'Actor list not found',
+        undefined,
+      );
     }
 
     res.status(HttpStatus.OK).json(actorList?.map((actor) => actor.toJson()));
@@ -126,7 +132,11 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
+      throw new LogicalException(
+        ErrorCode.ACTOR_NOT_FOUND,
+        'Actor not found',
+        undefined,
+      );
     }
 
     const result = await this.updateActorUsecase.call(
@@ -183,8 +193,11 @@ export class ActorController {
     );
 
     if (!actor) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
-      return;
+      throw new LogicalException(
+        ErrorCode.ACTOR_NOT_FOUND,
+        'Actor not found',
+        undefined,
+      );
     }
     const result = await this.deleteActorUsecase.call(actor);
     res.status(HttpStatus.OK).json(result);
