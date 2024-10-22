@@ -1,15 +1,10 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany, // Import OneToMany
-} from 'typeorm';
+import { Entity, Column, OneToMany, PrimaryColumn } from 'typeorm';
 import { LanguageModel } from '../../../domain/models/language-model';
 import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 
 @Entity('language')
 export class LanguageEntity {
-  @PrimaryGeneratedColumn({ name: 'language_id' })
+  @PrimaryColumn({ name: 'language_id' })
   language_id!: number;
 
   @Column({ type: 'varchar', length: 20, name: 'name' })
