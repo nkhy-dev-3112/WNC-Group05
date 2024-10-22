@@ -5,6 +5,7 @@ import { AppModule } from './modules/app/app.module';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './exceptions/all-exceptions-filter';
+import { LoggingInterceptor } from './interceptors/logging-interceptor';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -12,8 +13,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-
   app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   await setupSwagger(app);
 
