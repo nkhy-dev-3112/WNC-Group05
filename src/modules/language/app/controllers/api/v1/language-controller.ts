@@ -24,6 +24,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
+import { LanguageModel } from '../../../../domain/models/language-model';
 
 @ApiTags('Language')
 @Controller({ path: 'api/user/v1/language' })
@@ -72,7 +73,7 @@ export class LanguageController {
   @ApiResponse({
     status: 200,
     description: 'Language found',
-    example: { id: 1, name: 'English' },
+    type: LanguageModel,
   })
   @ApiResponse({
     status: 400,
@@ -81,6 +82,7 @@ export class LanguageController {
   })
   @ApiParam({
     name: 'language_id',
+    type: Number,
     description: 'The ID of the language to retrieve',
     required: true,
     example: 1,
@@ -120,7 +122,7 @@ export class LanguageController {
     name: 'language_id',
     description: 'The ID of the language to update',
     required: true,
-    example: 1,
+    type: Number,
   })
   @ApiBody({ type: UpdateLanguageDto, description: 'Language update details' })
   @Put('id/:language_id')

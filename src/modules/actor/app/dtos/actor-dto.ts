@@ -2,9 +2,9 @@ import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
-  @ApiProperty()
-  @IsInt()
-  actor_id!: number;
+  @ApiProperty({ example: '1' })
+  @IsString()
+  actor_id!: string;
 
   @ApiProperty()
   @IsString()
