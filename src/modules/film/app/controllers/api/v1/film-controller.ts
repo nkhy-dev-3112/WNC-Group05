@@ -29,6 +29,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { FilmModel } from '../../../../domain/models/film-model';
+import { ErrorCode } from '../../../../../../exceptions/error-code';
+import { LogicalException } from '../../../../../../exceptions/logical-exception';
 
 @ApiTags('Film')
 @Controller({ path: 'api/user/v1/film' })
@@ -70,11 +72,11 @@ export class FilmController {
     );
 
     if (!film) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
-<<<<<<< HEAD
-=======
-      return;
->>>>>>> a003b2a (Chery pick)
+      throw new LogicalException(
+        ErrorCode.FILM_NOT_FOUND,
+        'Film not found',
+        undefined,
+      );
     }
 
     res.status(HttpStatus.OK).json(film.toJson());
@@ -137,9 +139,11 @@ export class FilmController {
       );
 
       if (!language) {
-        res
-          .status(HttpStatus.NOT_FOUND)
-          .json({ message: 'Language not found' });
+        throw new LogicalException(
+          ErrorCode.FILM_NOT_FOUND,
+          'Film not found',
+          undefined,
+        );
       }
     }
 
@@ -150,9 +154,11 @@ export class FilmController {
       );
 
       if (!originalLanguage) {
-        res
-          .status(HttpStatus.NOT_FOUND)
-          .json({ message: 'Original language not found' });
+        throw new LogicalException(
+          ErrorCode.LANGUAGE_NOT_FOUND,
+          'Original language not found',
+          undefined,
+        );
       }
     }
 
@@ -231,13 +237,25 @@ export class FilmController {
     ]);
 
     if (!actor) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Actor not found' });
+      throw new LogicalException(
+        ErrorCode.ACTOR_NOT_FOUND,
+        'Film not found',
+        undefined,
+      );
     }
     if (!film) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
+      throw new LogicalException(
+        ErrorCode.FILM_NOT_FOUND,
+        'Film not found',
+        undefined,
+      );
     }
     if (!filmActor) {
-      res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
+      throw new LogicalException(
+        ErrorCode.FILM_ACTOR_ALREADY_EXIST,
+        'Actor already belongs to this film',
+        undefined,
+      );
     }
 
     await this.createFilmActorUsecase.call(filmActor);

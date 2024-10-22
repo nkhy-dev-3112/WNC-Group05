@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, Logger } from '@nestjs/common';
-import { WithSentry } from '@sentry/nestjs';
+import { captureException, setTags, WithSentry } from '@sentry/nestjs';
 import { ErrorCode } from './error-code';
 import { Response, Request } from 'express'; // Import Request
 import { ErrorException } from './error-exception';
@@ -8,7 +8,7 @@ import { ErrorException } from './error-exception';
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
 
-  @WithSentry()
+  // @WithSentry()
   catch(exception: any, host: ArgumentsHost) {
     console.log(exception);
     let errorException: ErrorException;
@@ -56,10 +56,25 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (httpStatusCode >= 500 || !(exception instanceof ErrorException)) {
       this.logger.error(logData);
       this.logger.error(exception);
+      setTags({
+        handled: 'no',
+        level: 'error',
+        url: request.url,
+        status_code: errorException.code,
+      });
     } else if (httpStatusCode >= 400) {
       this.logger.warn(logData);
       this.logger.warn(exception);
+      setTags({
+        handled: 'yes',
+        level: 'warning',
+        url: request.url,
+        status_code: errorException.code,
+      });
     }
+    captureException(exception, {
+      extra: logData,
+    });
 
     try {
       response.setHeader('X-Error-Message', errorException.message);

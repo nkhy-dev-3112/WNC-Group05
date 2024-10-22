@@ -25,6 +25,8 @@ import {
   ApiParam,
 } from '@nestjs/swagger';
 import { LanguageModel } from '../../../../domain/models/language-model';
+import { LogicalException } from '../../../../../../exceptions/logical-exception';
+import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Language')
 @Controller({ path: 'api/user/v1/language' })
@@ -95,10 +97,11 @@ export class LanguageController {
     );
 
     if (!language) {
-      res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Language not found' });
-      return;
+      throw new LogicalException(
+        ErrorCode.LANGUAGE_NOT_FOUND,
+        'Language not found',
+        undefined,
+      );
     }
 
     res.json(language);
@@ -149,10 +152,11 @@ export class LanguageController {
     );
 
     if (!language) {
-      res
-        .status(HttpStatus.BAD_REQUEST)
-        .json({ message: 'Language not found' });
-      return;
+      throw new LogicalException(
+        ErrorCode.LANGUAGE_NOT_FOUND,
+        'Language not found',
+        undefined,
+      );
     }
 
     await this.updateLanguageUsecase.call(language, body.name, new Date());
