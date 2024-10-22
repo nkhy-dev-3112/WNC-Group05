@@ -29,7 +29,7 @@ import {
 } from '@nestjs/swagger';
 
 @ApiTags('Actor')
-@Controller({ path: 'api/actor/v1/me' })
+@Controller({ path: 'api/user/v1/actors' })
 export class ActorController {
   constructor(
     private readonly getActorUsecase: GetActorUsecase,
