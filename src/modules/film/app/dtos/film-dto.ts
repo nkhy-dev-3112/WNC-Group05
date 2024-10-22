@@ -7,12 +7,13 @@ import {
   IsDate,
   IsArray,
   IsEnum,
+  IsNumber,
 } from 'class-validator';
 
 export class FilmDto {
-  @ApiProperty({ example: 1 })
-  @IsInt()
-  film_id!: number;
+  @ApiProperty({ example: '1' })
+  @IsString()
+  film_id!: string;
 
   @ApiProperty({ example: 'Inception' })
   @IsString()
@@ -42,7 +43,7 @@ export class FilmDto {
   rental_duration!: number;
 
   @ApiProperty({ example: 9.99 })
-  @IsInt()
+  @IsNumber()
   rental_rate!: number;
 
   @ApiProperty({ example: 148, required: false })
@@ -59,10 +60,6 @@ export class FilmDto {
   @IsEnum(FilmRating)
   rating?: FilmRating;
 
-  @ApiProperty({ example: '2023-10-21T10:00:00Z' })
-  @IsDate()
-  last_update!: Date;
-
   @ApiProperty({
     example: ['Deleted scenes', 'Behind the scenes'],
     required: false,
@@ -71,18 +68,14 @@ export class FilmDto {
   @IsString({ each: true })
   @IsOptional()
   special_features?: string[];
-
-  @ApiProperty({ example: 'Inception full-text search data', required: false })
-  @IsString()
-  @IsOptional()
-  fulltext?: string;
 }
 
 export class GetFilmParamDto extends PickType(FilmDto, ['film_id']) {}
 
 export class CreateFilmActorParamDto extends PickType(FilmDto, ['film_id']) {
-  @IsInt()
-  actor_id!: number;
+  @ApiProperty({ example: '34' })
+  @IsString()
+  actor_id!: string;
 }
 
 export class UpdateFilmDto extends PickType(FilmDto, [
@@ -96,7 +89,5 @@ export class UpdateFilmDto extends PickType(FilmDto, [
   'rating',
   'length',
   'replacement_cost',
-  'last_update',
   'special_features',
-  'fulltext',
 ]) {}

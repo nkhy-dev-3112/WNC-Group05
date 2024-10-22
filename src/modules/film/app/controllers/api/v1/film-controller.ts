@@ -63,19 +63,17 @@ export class FilmController {
   })
   @Get('id/:film_id')
   async get(@Param() param: GetFilmParamDto, @Res() res: Response) {
-    const film = await this.getFilmUsecase.call(param.film_id, undefined, [
-      'categories',
-      'language',
-      'original_language',
-      'actors',
-    ]);
+    const film = await this.getFilmUsecase.call(
+      parseInt(param.film_id),
+      undefined,
+      ['categories', 'language', 'original_language', 'actors'],
+    );
 
     if (!film) {
       res.status(HttpStatus.BAD_REQUEST).json({ message: 'Film not found' });
-      return;
     }
 
-    res.json(film);
+    res.status(HttpStatus.OK).json(film.toJson());
   }
 
   /**
@@ -117,12 +115,11 @@ export class FilmController {
     @Body() body: UpdateFilmDto,
     @Res() res: Response,
   ) {
-    const film = await this.getFilmUsecase.call(param.film_id, undefined, [
-      'categories',
-      'language',
-      'original_language',
-      'actors',
-    ]);
+    const film = await this.getFilmUsecase.call(
+      parseInt(param.film_id),
+      undefined,
+      ['categories', 'language', 'original_language', 'actors'],
+    );
 
     if (!film) {
       res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
@@ -167,7 +164,7 @@ export class FilmController {
       body.replacement_cost,
       body.rating,
       body.special_features,
-      body.fulltext,
+      undefined,
     );
     res.status(HttpStatus.OK).json(true);
   }
@@ -213,14 +210,18 @@ export class FilmController {
   ) {
     const [actor, film, filmActor] = await Promise.all([
       this.getActorUsecase.call(
-        param.actor_id,
+        parseInt(param.actor_id),
         undefined,
         undefined,
         undefined,
       ),
-      this.getFilmUsecase.call(param.film_id, undefined, undefined),
+      this.getFilmUsecase.call(parseInt(param.film_id), undefined, undefined),
       this.checkFilmActorExistUsecase.call(
-        new FilmActorModel(param.actor_id, param.film_id, new Date()),
+        new FilmActorModel(
+          parseInt(param.actor_id),
+          parseInt(param.film_id),
+          new Date(),
+        ),
       ),
     ]);
 
