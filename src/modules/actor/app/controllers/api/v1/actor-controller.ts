@@ -30,7 +30,7 @@ import {
 import { ActorModel } from '../../../../domain/models/actor-model';
 
 @ApiTags('Actor')
-@Controller({ path: 'api/actor/v1/me' })
+@Controller({ path: 'api/user/v1/actor' })
 export class ActorController {
   constructor(
     private readonly getActorUsecase: GetActorUsecase,

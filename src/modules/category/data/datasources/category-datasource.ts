@@ -43,7 +43,7 @@ export class CategoryDatasource {
   }
 
   public async update(
-    categoryId: number,
+    category: CategoryModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean> {
@@ -53,7 +53,7 @@ export class CategoryDatasource {
     };
 
     if (Object.keys(data).length > 0) {
-      await this.categoryRepository.update(categoryId, {
+      await this.categoryRepository.update(category.categoryId, {
         ...data,
       });
       return true;

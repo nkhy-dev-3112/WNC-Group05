@@ -7,7 +7,7 @@ export abstract class CategoryRepository {
     name: string | undefined,
   ): Promise<CategoryModel | undefined>;
   public abstract update(
-    categoryId: number,
+    category: CategoryModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean>;

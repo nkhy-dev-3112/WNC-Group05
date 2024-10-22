@@ -19,11 +19,11 @@ export class CategoryRepositoryImpl extends CategoryRepository {
     return this.categoryDatasource.get(categoryId, name);
   }
   public async update(
-    categoryId: number,
+    category: CategoryModel,
     name: string | undefined,
     lastUpdate: Date | undefined,
   ): Promise<boolean> {
-    return this.categoryDatasource.update(categoryId, name, lastUpdate);
+    return this.categoryDatasource.update(category, name, lastUpdate);
   }
   public async delete(categoryId: number): Promise<void> {
     await this.categoryDatasource.delete(categoryId);
