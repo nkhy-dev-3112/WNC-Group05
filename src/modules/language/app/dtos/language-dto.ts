@@ -2,9 +2,9 @@ import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
 
 export class LanguageDto {
-  @IsNumber()
+  @IsString()
   @ApiProperty({ example: '1' })
-  language_id: number;
+  language_id: string;
 
   @IsString()
   @IsNotEmpty()

@@ -74,6 +74,7 @@ export class LanguageController {
     status: HttpStatus.OK,
     description: 'Language found',
     type: LanguageModel,
+    type: LanguageModel,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -89,7 +90,7 @@ export class LanguageController {
   @Get('id/:language_id')
   async get(@Param() param: GetLanguageParamDto, @Res() res: Response) {
     const language = await this.getLanguageUsecase.call(
-      param.language_id,
+      parseInt(param.language_id),
       undefined,
     );
 
@@ -129,6 +130,7 @@ export class LanguageController {
     type: UpdateLanguageDto,
   })
 =======
+    type: Number,
   })
   @ApiBody({
     description: 'Language update details',
@@ -142,7 +144,7 @@ export class LanguageController {
     @Res() res: Response,
   ) {
     const language = await this.getLanguageUsecase.call(
-      param.language_id,
+      parseInt(param.language_id),
       undefined,
     );
 
