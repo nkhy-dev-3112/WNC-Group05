@@ -17,7 +17,7 @@ export class CategoryModel {
 
   @ApiProperty({
     name: 'last_update',
-    example: '2024-10-21T10:00:00Z',
+    example: new Date(),
     description: 'Timestamp of the last update for the category record',
   })
   lastUpdate: Date;
