@@ -6,39 +6,39 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { Request, Response } from 'express';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const ctx = context.switchToHttp();
-    const request = ctx.getRequest<Request>();
-    const response = ctx.getResponse<Response>();
-
-    const now = Date.now();
-    const method = request.method;
-    const url = request.url;
-    const body = request.body;
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler<any>,
+  ): Observable<any> {
+    const request = context.switchToHttp().getRequest();
+    const userAgent = request.get('user-agent') || '';
+    const { ip, method, path: url } = request;
 
     this.logger.debug(
-      `[${method}] ${url} - Request Body: ${JSON.stringify(body)}`,
+      `${method} - ${url} - ${userAgent} - ${ip}: ${context.getClass().name}.${context.getHandler().name} invoked`,
     );
 
-    const originalJson = response.json;
+    const now = Date.now();
 
-    response.json = (data: any) => {
-      const responseTime = Date.now() - now;
-      const statusCode = response.statusCode;
+    return next.handle().pipe(
+      tap((res) => {
+        const response = context.switchToHttp().getResponse();
 
-      this.logger.debug(
-        `[${method}] ${url} - Status: ${statusCode} - Response Time: ${responseTime}ms`,
-      );
+        const { statusCode } = response;
 
-      return originalJson.call(response, data);
-    };
-
-    return next.handle();
+        this.logger.debug(
+          `${method} - ${url} - ${statusCode} - ${userAgent} ${ip} - ${Date.now() - now} ms`,
+        );
+      }),
+      catchError((err) => {
+        this.logger.error(err);
+        return throwError(() => err);
+      }),
+    );
   }
 }
