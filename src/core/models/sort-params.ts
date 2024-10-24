@@ -1,10 +1,12 @@
+import { SortType } from '../enums/sort-type';
+
 export class SortParams {
   public readonly sort: string;
 
-  public readonly dir: 'ASC' | 'DESC';
+  public readonly type: SortType;
 
-  constructor(sort: string | undefined, dir: string | undefined) {
+  constructor(sort: string | undefined, type: SortType | undefined) {
     this.sort = sort ?? 'created_at';
-    this.dir = <'ASC' | 'DESC'>dir?.toUpperCase() ?? 'ASC';
+    this.type = type ?? SortType.ASC;
   }
 }

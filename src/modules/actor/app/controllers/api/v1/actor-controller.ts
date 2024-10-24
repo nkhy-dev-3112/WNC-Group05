@@ -7,12 +7,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
 import { GetActorUsecase } from '../../../../domain/usecases/get-actor-usecase';
 import { Response } from 'express';
 import {
   CreateActorDto,
+  GetActorListQueryDto,
   GetActorParamDto,
   UpdateActorDto,
 } from '../../../dtos/actor-dto';
@@ -30,6 +32,9 @@ import {
 import { ActorModel } from '../../../../domain/models/actor-model';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
+import { PageParams } from '../../../../../../core/models/page-params';
+import { SortParams } from '../../../../../../core/models/sort-params';
+import { DateFilterParams } from '../../../../../../core/models/date-filter-params';
 
 @ApiTags('Actor')
 @Controller({ path: 'api/user/v1/actor' })
@@ -86,8 +91,25 @@ export class ActorController {
     type: [ActorModel],
   })
   @Get('/')
-  async getList(@Res() res: Response) {
-    const actorList = await this.getActorListUsecase.call();
+  async getList(@Query() query: GetActorListQueryDto, @Res() res: Response) {
+    const pageParams = new PageParams(
+      query.page,
+      query.limit,
+      query.need_total_count,
+      query.only_count,
+    );
+    const sortParams = new SortParams(query.sort, query.type);
+    const dateFilterParams = new DateFilterParams(
+      new Date(query.from),
+      query.to,
+      query.column,
+    );
+    const actorList = await this.getActorListUsecase.call(
+      pageParams,
+      sortParams,
+      dateFilterParams,
+      undefined,
+    );
 
     if (!actorList) {
       throw new LogicalException(
@@ -97,7 +119,7 @@ export class ActorController {
       );
     }
 
-    res.status(HttpStatus.OK).json(actorList?.map((actor) => actor.toJson()));
+    res.status(HttpStatus.OK).json(actorList.toJson());
   }
 
   /**

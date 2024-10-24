@@ -1,8 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import {
+  Between,
+  FindOptionsWhere,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { ActorModel } from '../../domain/models/actor-model';
 import { ActorEntity } from './entities/actor-entity';
+import { DateFilterParams } from '../../../../core/models/date-filter-params';
+import { PageParams } from '../../../../core/models/page-params';
+import { SortParams } from '../../../../core/models/sort-params';
+import { PageList } from '../../../../core/models/page-list';
 
 @Injectable()
 export class ActorDatasource {
@@ -50,9 +60,59 @@ export class ActorDatasource {
     )?.toModel();
   }
 
-  public async getList(): Promise<ActorModel[] | undefined> {
-    const actors = await this.actorRepository.find();
-    return actors.map((actor) => actor.toModel());
+  public async list(
+    pageParams: PageParams,
+    sortParams: SortParams,
+    dateFilterParams: DateFilterParams,
+    relations: string[] | undefined,
+  ): Promise<PageList<ActorModel>> {
+    const condition: FindOptionsWhere<ActorEntity> = {};
+    const orderBy: Record<any, any> = {};
+
+    if (dateFilterParams && dateFilterParams.column !== undefined) {
+      if (dateFilterParams.from && dateFilterParams.to) {
+        condition[dateFilterParams.column] = <any>(
+          Between(dateFilterParams.from, dateFilterParams.to)
+        );
+      } else if (dateFilterParams.from) {
+        condition[dateFilterParams.column] = <any>(
+          MoreThanOrEqual(dateFilterParams.from)
+        );
+      } else if (dateFilterParams.to) {
+        condition[dateFilterParams.column] = <any>(
+          LessThanOrEqual(dateFilterParams.to)
+        );
+      }
+    }
+
+    if (sortParams) {
+      orderBy[sortParams.sort] = sortParams.type;
+    }
+
+    const query = this.actorRepository.createQueryBuilder();
+
+    query.setFindOptions({
+      where: condition,
+      relations: relations,
+      skip: pageParams.limit * (pageParams.page - 1),
+      take: pageParams.limit,
+      order: orderBy,
+    });
+
+    let totalCount;
+    if (pageParams.needTotalCount) {
+      totalCount = await query.getCount();
+    }
+
+    let actors: ActorEntity[] = [];
+    if (!pageParams.onlyCount) {
+      actors = await query.getMany();
+    }
+    return new PageList(
+      pageParams.page,
+      totalCount,
+      actors.map((actor) => actor.toModel()),
+    );
   }
 
   public async getMaxId(): Promise<number> {

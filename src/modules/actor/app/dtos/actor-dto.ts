@@ -1,5 +1,13 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsInt, IsString, Length } from 'class-validator';
+import {
+  ApiProperty,
+  IntersectionType,
+  PartialType,
+  PickType,
+} from '@nestjs/swagger';
+import { IsString, Length } from 'class-validator';
+import { PageParamsDto } from '../../../../core/dtos/page-params-dto';
+import { SortParamsDto } from '../../../../core/dtos/sort-params-dto';
+import { DateParamsDto } from '../../../../core/dtos/date-params-dto';
 
 export class ActorDto {
   @ApiProperty({ example: '1' })
@@ -32,3 +40,17 @@ export class CreateActorDto extends PickType(ActorDto, [
   'first_name',
   'last_name',
 ]) {}
+
+export class GetActorListQueryDto extends PartialType(
+  PickType(IntersectionType(PageParamsDto, SortParamsDto, DateParamsDto), [
+    'limit',
+    'page',
+    'need_total_count',
+    'only_count',
+    'sort',
+    'type',
+    'from',
+    'to',
+    'column',
+  ]),
+) {}

@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { ActorRepository } from '../../domain/repositories/actor-repository';
 import { ActorModel } from '../../domain/models/actor-model';
 import { ActorDatasource } from '../datasource/actor-datasource';
+import { DateFilterParams } from '../../../../core/models/date-filter-params';
+import { PageParams } from '../../../../core/models/page-params';
+import { SortParams } from '../../../../core/models/sort-params';
+import { PageList } from '../../../../core/models/page-list';
 
 @Injectable()
 export class ActorRepositoryImpl extends ActorRepository {
@@ -38,8 +42,18 @@ export class ActorRepositoryImpl extends ActorRepository {
       relations,
     );
   }
-  public async getList(): Promise<ActorModel[] | undefined> {
-    return await this.actorDatasource.getList();
+  public async list(
+    pageParams: PageParams,
+    sortParams: SortParams,
+    dateFilterParams: DateFilterParams,
+    relations: string[] | undefined,
+  ): Promise<PageList<ActorModel>> {
+    return await this.actorDatasource.list(
+      pageParams,
+      sortParams,
+      dateFilterParams,
+      relations,
+    );
   }
   public async getMaxId(): Promise<number> {
     return await this.actorDatasource.getMaxId();
