@@ -3,6 +3,10 @@ import { FilmDatasource } from '../datasources/film-datasource';
 import { FilmRepository } from '../../domain/repositories/film-repository';
 import { FilmRating } from '../../domain/enums/film-rating';
 import { FilmModel } from '../../domain/models/film-model';
+import { DateFilterParams } from '../../../../core/models/date-filter-params';
+import { PageList } from '../../../../core/models/page-list';
+import { PageParams } from '../../../../core/models/page-params';
+import { SortParams } from '../../../../core/models/sort-params';
 
 @Injectable()
 export class FilmRepositoryImpl extends FilmRepository {
@@ -17,6 +21,21 @@ export class FilmRepositoryImpl extends FilmRepository {
   ): Promise<FilmModel | undefined> {
     return this.filmDatasouce.get(filmId, title, relations);
   }
+
+  public async list(
+    pageParams: PageParams,
+    sortParams: SortParams,
+    dateFilterParams: DateFilterParams,
+    relations: string[] | undefined,
+  ): Promise<PageList<FilmModel>> {
+    return await this.filmDatasouce.list(
+      pageParams,
+      sortParams,
+      dateFilterParams,
+      relations,
+    );
+  }
+
   public async update(
     film: FilmModel,
     title: string | undefined,

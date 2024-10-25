@@ -1,9 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilmEntity } from './entities/film-entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import {
+  Between,
+  FindOptionsWhere,
+  LessThanOrEqual,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm';
 import { FilmModel } from '../../domain/models/film-model';
 import { FilmRating } from '../../domain/enums/film-rating';
+import { DateFilterParams } from '../../../../core/models/date-filter-params';
+import { PageList } from '../../../../core/models/page-list';
+import { PageParams } from '../../../../core/models/page-params';
+import { SortParams } from '../../../../core/models/sort-params';
 
 @Injectable()
 export class FilmDatasource {
@@ -36,6 +46,60 @@ export class FilmDatasource {
     }
 
     return (await this.filmRepository.findOne(options))?.toModel();
+  }
+  public async list(
+    pageParams: PageParams,
+    sortParams: SortParams,
+    dateFilterParams: DateFilterParams,
+    relations: string[] | undefined,
+  ): Promise<PageList<FilmModel>> {
+    const condition: FindOptionsWhere<FilmEntity> = {};
+    const orderBy: Record<any, any> = {};
+
+    if (dateFilterParams && dateFilterParams.column !== undefined) {
+      if (dateFilterParams.from && dateFilterParams.to) {
+        condition[dateFilterParams.column] = <any>(
+          Between(dateFilterParams.from, dateFilterParams.to)
+        );
+      } else if (dateFilterParams.from) {
+        condition[dateFilterParams.column] = <any>(
+          MoreThanOrEqual(dateFilterParams.from)
+        );
+      } else if (dateFilterParams.to) {
+        condition[dateFilterParams.column] = <any>(
+          LessThanOrEqual(dateFilterParams.to)
+        );
+      }
+    }
+
+    if (sortParams) {
+      orderBy[sortParams.sort] = sortParams.type;
+    }
+    const query = this.filmRepository.createQueryBuilder();
+
+    query.setFindOptions({
+      where: condition,
+      relations: relations,
+      skip: pageParams.limit * (pageParams.page - 1),
+      take: pageParams.limit,
+      order: orderBy,
+    });
+
+    let totalCount;
+    if (pageParams.needTotalCount) {
+      totalCount = await query.getCount();
+    }
+
+    let films: FilmEntity[] = [];
+    if (!pageParams.onlyCount) {
+      films = await query.getMany();
+    }
+
+    return new PageList(
+      pageParams.page,
+      totalCount,
+      films.map((film) => film.toModel()),
+    );
   }
 
   public async update(
