@@ -19,6 +19,7 @@ import { UpdateFilmUsecase } from './domain/usecases/film/update-film-usecase';
 import { CheckFilmActorExistUsecase } from './domain/usecases/film-actor/check-film-actor-exist-usecase';
 import { ActorModule } from '../actor/actor.module';
 import { CreateFilmActorUsecase } from './domain/usecases/film-actor/create-film-actor-usecase';
+import { GetFilmsUsecase } from './domain/usecases/film/get-films-usecase';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { CreateFilmActorUsecase } from './domain/usecases/film-actor/create-film
     UpdateFilmUsecase,
     CheckFilmActorExistUsecase,
     CreateFilmActorUsecase,
+    GetFilmsUsecase,
   ],
   exports: [DeleteFilmActorByActorIdUsecase, GetFilmActorByActorIdUsecase],
 })

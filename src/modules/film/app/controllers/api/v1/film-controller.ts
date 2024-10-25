@@ -6,12 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
 import { GetFilmUsecase } from '../../../../domain/usecases/film/get-film-usecase';
 import { Response } from 'express';
 import {
   CreateFilmActorParamDto,
+  GetFilmListQueryDto,
   GetFilmParamDto,
   UpdateFilmDto,
 } from '../../../dtos/film-dto';
@@ -31,6 +33,11 @@ import {
 import { FilmModel } from '../../../../domain/models/film-model';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
+import { PageParams } from '../../../../../../core/models/page-params';
+import { DateFilterParams } from '../../../../../../core/models/date-filter-params';
+import { SortParams } from '../../../../../../core/models/sort-params';
+import { GetFilmsUsecase } from '../../../../domain/usecases/film/get-films-usecase';
+import { PageList } from '../../../../../../core/models/page-list';
 
 @ApiTags('Film')
 @Controller({ path: 'api/user/v1/film' })
@@ -42,6 +49,7 @@ export class FilmController {
     private readonly getLanguageUsecase: GetLanguageUsecase,
     private readonly checkFilmActorExistUsecase: CheckFilmActorExistUsecase,
     private readonly createFilmActorUsecase: CreateFilmActorUsecase,
+    private readonly getFilmsUsecase: GetFilmsUsecase,
   ) {}
 
   /**
@@ -259,5 +267,39 @@ export class FilmController {
 
     await this.createFilmActorUsecase.call(filmActor);
     res.status(HttpStatus.OK).json(filmActor.toJson());
+  }
+
+  /**
+   *  Get list of films
+   */
+
+  @ApiOperation({ summary: 'Get a list film pagination' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: PageList<FilmModel>,
+  })
+  @Get()
+  async list(@Query() query: GetFilmListQueryDto, @Res() res: Response) {
+    const pageParams = new PageParams(
+      query.page,
+      query.limit,
+      query.need_total_count,
+      query.only_count,
+    );
+    const sortParams = new SortParams(query.sort, query.type);
+    const dateFilterParams = new DateFilterParams(
+      new Date(query.from),
+      query.to,
+      query.column,
+    );
+
+    const films = await this.getFilmsUsecase.call(
+      pageParams,
+      sortParams,
+      dateFilterParams,
+      ['categories', 'language', 'original_language'],
+    );
+
+    res.status(HttpStatus.OK).json(films.toJson());
   }
 }

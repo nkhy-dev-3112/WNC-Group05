@@ -1,4 +1,9 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import {
+  ApiProperty,
+  IntersectionType,
+  PartialType,
+  PickType,
+} from '@nestjs/swagger';
 import { FilmRating } from '../../domain/enums/film-rating';
 import {
   IsInt,
@@ -8,6 +13,9 @@ import {
   IsEnum,
   IsNumber,
 } from 'class-validator';
+import { PageParamsDto } from '../../../../core/dtos/page-params-dto';
+import { DateParamsDto } from '../../../../core/dtos/date-params-dto';
+import { SortParamsDto } from '../../../../core/dtos/sort-params-dto';
 
 export class FilmDto {
   @ApiProperty({ example: '1' })
@@ -90,3 +98,17 @@ export class UpdateFilmDto extends PickType(FilmDto, [
   'replacement_cost',
   'special_features',
 ]) {}
+
+export class GetFilmListQueryDto extends PartialType(
+  PickType(IntersectionType(PageParamsDto, SortParamsDto, DateParamsDto), [
+    'limit',
+    'page',
+    'need_total_count',
+    'only_count',
+    'sort',
+    'type',
+    'from',
+    'to',
+    'column',
+  ]),
+) {}

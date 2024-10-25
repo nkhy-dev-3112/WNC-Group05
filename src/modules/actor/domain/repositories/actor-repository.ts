@@ -19,6 +19,7 @@ export abstract class ActorRepository {
     lastName: string | undefined,
     relations: string[] | undefined,
   ): Promise<ActorModel | undefined>;
+
   public abstract list(
     pageParams: PageParams,
     sortParams: SortParams,

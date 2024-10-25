@@ -91,7 +91,7 @@ export class ActorController {
     type: [ActorModel],
   })
   @Get('/')
-  async getList(@Query() query: GetActorListQueryDto, @Res() res: Response) {
+  async list(@Query() query: GetActorListQueryDto, @Res() res: Response) {
     const pageParams = new PageParams(
       query.page,
       query.limit,
@@ -104,22 +104,14 @@ export class ActorController {
       query.to,
       query.column,
     );
-    const actorList = await this.getActorListUsecase.call(
+    const actors = await this.getActorListUsecase.call(
       pageParams,
       sortParams,
       dateFilterParams,
       undefined,
     );
 
-    if (!actorList) {
-      throw new LogicalException(
-        ErrorCode.ACTOR_NOT_FOUND,
-        'Actor list not found',
-        undefined,
-      );
-    }
-
-    res.status(HttpStatus.OK).json(actorList.toJson());
+    res.status(HttpStatus.OK).json(actors.toJson());
   }
 
   /**
