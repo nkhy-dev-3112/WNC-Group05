@@ -9,8 +9,6 @@ import {
 import { ErrorCode } from './error-code';
 import { Response, Request } from 'express';
 import { ErrorException } from './error-exception';
-import * as Sentry from '@sentry/node';
-import { CaptureContext } from '@sentry/types';
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
@@ -43,17 +41,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     this.logger.error(exception.message, exception.description);
-
-    const sentryContext: CaptureContext = {
-      level: httpStatusCode >= 500 ? 'error' : 'warning',
-      tags: {
-        handled: httpStatusCode < 500 ? 'yes' : 'no',
-        url: request.url,
-        status_code: errorException.code,
-      },
-    };
-
-    Sentry.captureException(exception, sentryContext);
 
     response
       .status(httpStatusCode)
