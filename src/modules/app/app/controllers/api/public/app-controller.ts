@@ -1,8 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { GetInformationUsecase } from '../../../../domain/usecases/get-infomation-usecase';
 import { ApiTags } from '@nestjs/swagger';
-import { ErrorException } from '../../../../../../exceptions/error-exception';
-import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Welcome')
 @Controller()
