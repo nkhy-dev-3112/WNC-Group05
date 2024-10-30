@@ -49,7 +49,7 @@ export class CategoryModel {
       category_id: this.categoryId,
       name: this.name,
       last_update: this.lastUpdate,
-      films: this?.films.map((film) => film.toJson()),
+      films: this.films?.map((film) => film.toJson()),
     };
   }
 }

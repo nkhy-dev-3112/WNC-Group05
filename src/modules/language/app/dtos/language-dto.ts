@@ -1,10 +1,18 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsInt,
+} from 'class-validator';
 
 export class LanguageDto {
-  @IsString()
   @ApiProperty({ example: '1' })
-  language_id: string;
+  @IsInt({ message: 'language_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
+  language_id: number;
 
   @IsString()
   @IsNotEmpty()

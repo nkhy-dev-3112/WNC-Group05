@@ -83,7 +83,7 @@ export class CategoryController {
   @Get('id/:category_id')
   async get(@Param() param: GetCategoryParamDto, @Res() res: Response) {
     const category = await this.getCategoryUsecase.call(
-      parseInt(param.category_id),
+      param.category_id,
       undefined,
       ['films'],
     );
@@ -122,7 +122,7 @@ export class CategoryController {
     @Res() res: Response,
   ) {
     const category = await this.getCategoryUsecase.call(
-      parseInt(param.category_id),
+      param.category_id,
       undefined,
       undefined,
     );

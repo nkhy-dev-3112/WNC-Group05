@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
 import { FilmRating } from '../../domain/enums/film-rating';
 import {
   IsInt,
@@ -10,11 +10,13 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { ActorDto } from '../../../actor/app/dtos/actor-dto';
 
 export class FilmDto {
   @ApiProperty({ example: '1' })
-  @IsString()
-  film_id!: string;
+  @IsInt({ message: 'film_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
+  film_id!: number;
 
   @ApiProperty({ example: 'Inception' })
   @IsString()
@@ -74,11 +76,10 @@ export class FilmDto {
 
 export class GetFilmParamDto extends PickType(FilmDto, ['film_id']) {}
 
-export class CreateFilmActorParamDto extends PickType(FilmDto, ['film_id']) {
-  @ApiProperty({ example: '34' })
-  @IsString()
-  actor_id!: string;
-}
+export class CreateFilmActorParamDto extends PickType(
+  IntersectionType(FilmDto, ActorDto),
+  ['film_id', 'actor_id'],
+) {}
 
 export class UpdateFilmDto extends PickType(FilmDto, [
   'title',

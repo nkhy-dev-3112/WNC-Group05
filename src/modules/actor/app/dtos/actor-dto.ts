@@ -4,8 +4,9 @@ import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
   @ApiProperty({ example: '1' })
-  @IsString()
-  actor_id!: string;
+  @IsInt({ message: 'actor_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
+  actor_id!: number;
 
   @ApiProperty({ example: 'John' })
   @IsString()

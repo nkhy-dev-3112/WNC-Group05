@@ -29,8 +29,10 @@ async function setupSwagger(app: INestApplication) {
   };
 
   const config = new DocumentBuilder()
-    .setTitle('API Documentation')
-    .setDescription('API description')
+    .setTitle('SAKILA - API Documentation')
+    .setDescription(
+      '<a href="/api/documentation-json" download="swagger.json">Download JSON</a>',
+    )
     .setVersion('1.0')
     .build();
 

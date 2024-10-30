@@ -89,7 +89,7 @@ export class LanguageController {
   @Get('id/:language_id')
   async get(@Param() param: GetLanguageParamDto, @Res() res: Response) {
     const language = await this.getLanguageUsecase.call(
-      parseInt(param.language_id),
+      param.language_id,
       undefined,
     );
 
@@ -134,7 +134,7 @@ export class LanguageController {
     @Res() res: Response,
   ) {
     const language = await this.getLanguageUsecase.call(
-      parseInt(param.language_id),
+      param.language_id,
       undefined,
     );
 

@@ -1,10 +1,12 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CategoryDto {
-  @IsString()
   @ApiProperty({ example: '1' })
-  category_id!: string;
+  @IsInt({ message: 'category_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
+  category_id!: number;
 
   @IsString()
   @IsNotEmpty()
