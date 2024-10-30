@@ -17,6 +17,11 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   await setupSwagger(app);
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
+  });
 
   await app.listen(app.get(ConfigService).get<number>('app.port') ?? 80);
 }

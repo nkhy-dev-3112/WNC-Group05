@@ -49,8 +49,8 @@ export class FilmDatasource {
   }
   public async list(
     pageParams: PageParams,
-    sortParams: SortParams,
-    dateFilterParams: DateFilterParams,
+    sortParams: SortParams | undefined,
+    dateFilterParams: DateFilterParams | undefined,
     relations: string[] | undefined,
   ): Promise<PageList<FilmModel>> {
     const condition: FindOptionsWhere<FilmEntity> = {};

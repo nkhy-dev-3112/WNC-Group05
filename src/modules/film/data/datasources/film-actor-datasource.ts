@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FilmActorEntity } from './entities/film-actor-entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { FilmActorModel } from '../../domain/models/film-actor-model';
+import { DateFilterParams } from '../../../../core/models/date-filter-params';
 
 @Injectable()
 export class FilmActorDataSource {
