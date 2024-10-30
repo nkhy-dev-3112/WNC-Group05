@@ -177,7 +177,6 @@ export class FilmController {
       body.rating,
       body.special_features,
       undefined,
-      undefined,
     );
     res.status(HttpStatus.OK).json(true);
   }
