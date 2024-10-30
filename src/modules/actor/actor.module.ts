@@ -6,13 +6,9 @@ import { ActorRepository } from './domain/repositories/actor-repository';
 import { ActorRepositoryImpl } from './data/repositories/actor-repository-impl';
 import { ActorDatasource } from './data/datasource/actor-datasource';
 import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
-import { FilmModule } from '../film/film.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ActorEntity]),
-    forwardRef(() => FilmModule),
-  ],
+  imports: [TypeOrmModule.forFeature([ActorEntity])],
   controllers: [ActorController],
   providers: [
     {

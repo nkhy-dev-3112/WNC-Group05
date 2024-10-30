@@ -8,13 +8,9 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
-import { SentryModule } from '@sentry/nestjs/setup';
-import * as Sentry from '@sentry/nestjs';
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
-import sentry from './config/sentry';
 @Module({
   imports: [
-    ConfigModule.forRoot({ load: [database, app, sentry] }),
+    ConfigModule.forRoot({ load: [database, app] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -30,24 +26,9 @@ import sentry from './config/sentry';
         return addTransactionalDataSource(new DataSource(options));
       },
     }),
-    SentryModule.forRoot(),
     forwardRef(() => ActorModule),
   ],
   controllers: [AppController],
   providers: [GetInformationUsecase],
 })
-export class AppModule {
-  constructor(private configService: ConfigService) {
-    this.initializeSentry();
-  }
-
-  initializeSentry() {
-    Sentry.init({
-      dsn: this.configService.get<string>('sentry.dsn'),
-      integrations: [nodeProfilingIntegration()],
-      tracesSampleRate: 1.0,
-      profilesSampleRate: 1.0,
-      environment: 'localhost',
-    });
-  }
-}
+export class AppModule {}
