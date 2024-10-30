@@ -32,7 +32,7 @@ import { LogicalException } from '../../../../../../exceptions/logical-exception
 import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Actor')
-@Controller({ path: 'api/user/v1/actor' })
+@Controller({ path: 'api/actor/v1/me' })
 export class ActorController {
   constructor(
     private readonly getActorUsecase: GetActorUsecase,
