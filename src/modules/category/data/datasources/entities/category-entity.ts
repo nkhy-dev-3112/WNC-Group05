@@ -27,7 +27,7 @@ export class CategoryEntity {
       this.category_id,
       this.name,
       this.last_update,
-      this?.films?.map((film) => film?.toModel()),
+      this.films?.map((film) => film?.toModel()),
     );
   }
 }

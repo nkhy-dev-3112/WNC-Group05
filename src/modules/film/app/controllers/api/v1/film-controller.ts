@@ -122,11 +122,12 @@ export class FilmController {
     @Body() body: UpdateFilmDto,
     @Res() res: Response,
   ) {
-    const film = await this.getFilmUsecase.call(
-      parseInt(param.film_id),
-      undefined,
-      ['categories', 'language', 'original_language', 'actors'],
-    );
+    const film = await this.getFilmUsecase.call(param.film_id, undefined, [
+      'categories',
+      'language',
+      'original_language',
+      'actors',
+    ]);
 
     if (!film) {
       res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
