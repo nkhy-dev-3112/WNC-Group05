@@ -26,7 +26,7 @@ export class FilmController {
 
     if (!films) {
       throw new LogicalException(
-        ErrorCode.ACTOR_NOT_FOUND,
+        ErrorCode.FILM_NOT_FOUND,
         'Actor list not found',
         undefined,
       );
