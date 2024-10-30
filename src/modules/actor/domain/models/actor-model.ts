@@ -1,5 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { FilmModel } from '../../../film/domain/models/film-model';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class ActorModel {
   @ApiProperty({

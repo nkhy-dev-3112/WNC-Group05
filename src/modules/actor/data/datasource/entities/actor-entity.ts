@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { ActorModel } from '../../../domain/models/actor-model';
-import { FilmEntity } from '../../../../film/data/datasources/entities/film-entity';
 
 @Entity('actor')
 export class ActorEntity {
