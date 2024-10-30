@@ -1,4 +1,3 @@
-import { ActorModel } from '../../../actor/domain/models/actor-model';
 import { FilmRating } from '../enums/film-rating';
 import { ApiProperty } from '@nestjs/swagger';
 

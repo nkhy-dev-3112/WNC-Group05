@@ -7,7 +7,7 @@ import { LogicalException } from '../../../../../../exceptions/logical-exception
 import { GetFilmListUsecase } from '../../../../domain/usecases/film/get-film-list-usecase';
 
 @ApiTags('Film')
-@Controller({ path: 'api/user/v1/film' })
+@Controller({ path: 'api/filmB' })
 export class FilmController {
   constructor(private readonly getFilmListUsecase: GetFilmListUsecase) {}
 

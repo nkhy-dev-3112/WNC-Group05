@@ -7,11 +7,11 @@ import app from './config/app';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
-import { ActorModule } from '../actor/actor.module';
 import { SentryModule } from '@sentry/nestjs/setup';
 import * as Sentry from '@sentry/nestjs';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 import sentry from './config/sentry';
+import { FilmModule } from '../film/film.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [database, app, sentry] }),
@@ -31,7 +31,7 @@ import sentry from './config/sentry';
       },
     }),
     SentryModule.forRoot(),
-    forwardRef(() => ActorModule),
+    forwardRef(() => FilmModule),
   ],
   controllers: [AppController],
   providers: [GetInformationUsecase],

@@ -10,7 +10,6 @@ import {
   IsNumber,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { ActorDto } from '../../../actor/app/dtos/actor-dto';
 
 export class FilmDto {
   @ApiProperty({ example: '1' })
@@ -75,24 +74,3 @@ export class FilmDto {
   @IsOptional()
   special_features?: string[];
 }
-
-export class GetFilmParamDto extends PickType(FilmDto, ['film_id']) {}
-
-export class CreateFilmActorParamDto extends PickType(
-  IntersectionType(FilmDto, ActorDto),
-  ['film_id', 'actor_id'],
-) {}
-
-export class UpdateFilmDto extends PickType(FilmDto, [
-  'title',
-  'description',
-  'release_year',
-  'language_id',
-  'original_language_id',
-  'rental_duration',
-  'rental_rate',
-  'rating',
-  'length',
-  'replacement_cost',
-  'special_features',
-]) {}

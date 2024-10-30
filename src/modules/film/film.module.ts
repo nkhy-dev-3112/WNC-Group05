@@ -15,14 +15,12 @@ import { FilmController } from './app/controllers/api/v1/film-controller';
 import { FilmDatasource } from './data/datasources/film-datasource';
 import { UpdateFilmUsecase } from './domain/usecases/film/update-film-usecase';
 import { CheckFilmActorExistUsecase } from './domain/usecases/film-actor/check-film-actor-exist-usecase';
-import { ActorModule } from '../actor/actor.module';
 import { CreateFilmActorUsecase } from './domain/usecases/film-actor/create-film-actor-usecase';
 import { GetFilmListUsecase } from './domain/usecases/film/get-film-list-usecase';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([FilmEntity, FilmActorEntity, FilmCategoryEntity]),
-    forwardRef(() => ActorModule),
   ],
   controllers: [FilmController],
   providers: [
