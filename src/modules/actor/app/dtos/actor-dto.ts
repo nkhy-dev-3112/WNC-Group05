@@ -3,8 +3,9 @@ import { Transform } from 'class-transformer';
 import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
-  @ApiProperty()
-  @IsInt()
+  @ApiProperty({ example: '1' })
+  @IsInt({ message: 'actor_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
   actor_id!: number;
 
   @ApiProperty({ example: 'John' })
@@ -24,11 +25,7 @@ export class ActorDto {
   last_name: string;
 }
 
-export class GetActorParamDto {
-  @IsString()
-  @ApiProperty()
-  actor_id!: number;
-}
+export class GetActorParamDto extends PickType(ActorDto, ['actor_id']) {}
 
 export class UpdateActorDto extends PickType(ActorDto, [
   'first_name',
