@@ -30,25 +30,16 @@ export class ActorModel {
   })
   public readonly lastUpdate: Date;
 
-  @ApiPropertyOptional({
-    name: 'films',
-    type: [FilmModel],
-    description: 'List of films the actor has participated in',
-  })
-  public readonly films: FilmModel[];
-
   constructor(
     actorId: number,
     firstName: string,
     lastName: string,
     lastUpdate: Date,
-    films: FilmModel[] | undefined,
   ) {
     this.actorId = actorId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.lastUpdate = lastUpdate;
-    this.films = films;
   }
 
   public toJson(): Record<string, any> {
@@ -57,7 +48,6 @@ export class ActorModel {
       first_name: this.firstName,
       last_name: this.lastName,
       last_update: this.lastUpdate,
-      films: this.films?.map((film) => film?.toJson()),
     };
   }
 }

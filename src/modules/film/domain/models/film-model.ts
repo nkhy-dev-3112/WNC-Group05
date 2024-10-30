@@ -1,5 +1,3 @@
-import { CategoryModel } from '../../../category/domain/models/category-model';
-import { LanguageModel } from '../../../language/domain/models/language-model';
 import { ActorModel } from '../../../actor/domain/models/actor-model';
 import { FilmRating } from '../enums/film-rating';
 import { ApiProperty } from '@nestjs/swagger';
@@ -111,39 +109,6 @@ export class FilmModel {
   })
   public readonly fulltext: string | undefined;
 
-  /** Relations */
-  @ApiProperty({
-    name: 'categories',
-    type: () => [CategoryModel],
-    required: false,
-    description: 'Categories the film belongs to',
-  })
-  public readonly categories: CategoryModel[] | undefined;
-
-  @ApiProperty({
-    name: 'language',
-    type: () => LanguageModel,
-    required: false,
-    description: 'Primary language of the film',
-  })
-  public readonly language: LanguageModel | undefined;
-
-  @ApiProperty({
-    name: 'original_language',
-    type: () => LanguageModel,
-    required: false,
-    description: 'Original language of the film',
-  })
-  public readonly originalLanguage: LanguageModel | undefined;
-
-  @ApiProperty({
-    name: 'actors',
-    type: () => [ActorModel],
-    required: false,
-    description: 'Actors who appeared in the film',
-  })
-  public readonly actors: ActorModel[] | undefined;
-
   constructor(
     filmId: number,
     title: string,
@@ -159,10 +124,6 @@ export class FilmModel {
     lastUpdate: Date,
     specialFeatures: string[] | undefined,
     fulltext: string | undefined,
-    categories: CategoryModel[] | undefined,
-    language: LanguageModel | undefined,
-    orginalLanguage: LanguageModel | undefined,
-    actors: ActorModel[] | undefined,
   ) {
     this.filmId = filmId;
     this.title = title;
@@ -178,10 +139,6 @@ export class FilmModel {
     this.lastUpdate = lastUpdate;
     this.specialFeatures = specialFeatures;
     this.fulltext = fulltext;
-    this.categories = categories;
-    this.language = language;
-    this.originalLanguage = orginalLanguage;
-    this.actors = actors;
   }
 
   public toJson(): Record<string, any> {
@@ -200,10 +157,6 @@ export class FilmModel {
       last_update: this.lastUpdate,
       special_features: this.specialFeatures,
       fulltext: this.fulltext,
-      categories: this.categories?.map((cat) => cat?.toJson()),
-      language: this.language?.toJson(),
-      original_language: this.originalLanguage?.toJson(),
-      actors: this.actors?.map((actor) => actor?.toJson()),
     };
   }
 }

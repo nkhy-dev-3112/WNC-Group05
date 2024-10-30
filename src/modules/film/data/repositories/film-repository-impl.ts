@@ -50,4 +50,8 @@ export class FilmRepositoryImpl extends FilmRepository {
       lastUpdate,
     );
   }
+
+  public async list(): Promise<FilmModel[] | undefined> {
+    return await this.filmDatasouce.list();
+  }
 }

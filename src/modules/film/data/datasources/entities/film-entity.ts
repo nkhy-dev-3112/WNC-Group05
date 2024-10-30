@@ -1,17 +1,6 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { FilmModel } from '../../../domain/models/film-model';
-import { ActorEntity } from '../../../../actor/data/datasource/entities/actor-entity';
 import { FilmRating } from '../../../domain/enums/film-rating';
-import { LanguageEntity } from '../../../../language/data/datasources/entities/language-entity';
-import { CategoryEntity } from '../../../../category/data/datasources/entities/category-entity';
 
 @Entity('film')
 export class FilmEntity {
@@ -57,44 +46,6 @@ export class FilmEntity {
   @Column({ type: 'tsvector', nullable: true, select: false })
   fulltext?: string;
 
-  /** Relations */
-
-  @ManyToMany(() => ActorEntity, (actor) => actor.films)
-  @JoinTable({
-    name: 'film_actor',
-    joinColumn: {
-      name: 'film_id',
-      referencedColumnName: 'film_id',
-    },
-    inverseJoinColumn: {
-      name: 'actor_id',
-      referencedColumnName: 'actor_id',
-    },
-  })
-  actors!: ActorEntity[];
-
-  @ManyToMany(() => CategoryEntity, (category) => category.films)
-  @JoinTable({
-    name: 'film_category',
-    joinColumn: {
-      name: 'film_id',
-      referencedColumnName: 'film_id',
-    },
-    inverseJoinColumn: {
-      name: 'category_id',
-      referencedColumnName: 'category_id',
-    },
-  })
-  categories?: CategoryEntity[];
-
-  @OneToOne(() => LanguageEntity)
-  @JoinColumn({ name: 'language_id' })
-  language!: LanguageEntity;
-
-  @OneToOne(() => LanguageEntity)
-  @JoinColumn({ name: 'original_language_id' })
-  original_language!: LanguageEntity;
-
   public toModel(): FilmModel {
     return new FilmModel(
       this.film_id,
@@ -111,10 +62,6 @@ export class FilmEntity {
       this.last_update,
       this.special_features,
       this.fulltext,
-      this.categories?.map((cat) => cat?.toModel()),
-      this.language?.toModel(),
-      this.original_language?.toModel(),
-      this.actors?.map((actor) => actor.toModel()),
     );
   }
 }

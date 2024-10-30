@@ -16,16 +16,12 @@ export class ActorEntity {
   @Column()
   last_update!: Date;
 
-  @ManyToMany(() => FilmEntity, (film) => film.actors)
-  films?: FilmEntity[];
-
   public toModel(): ActorModel {
     return new ActorModel(
       this.actor_id,
       this.first_name,
       this.last_name,
       this.last_update,
-      this.films?.map((film) => film?.toModel()),
     );
   }
 }

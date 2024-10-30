@@ -84,4 +84,9 @@ export class FilmDatasource {
     }
     return false;
   }
+
+  public async list(): Promise<FilmModel[] | undefined> {
+    const films = await this.filmRepository.find();
+    return films.map((film) => film.toModel());
+  }
 }

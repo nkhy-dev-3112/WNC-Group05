@@ -8,6 +8,8 @@ export abstract class FilmRepository {
     relations: string[] | undefined,
   ): Promise<FilmModel | undefined>;
 
+  public abstract list(): Promise<FilmModel[] | undefined>;
+
   public abstract update(
     film: FilmModel,
     title: string | undefined,
