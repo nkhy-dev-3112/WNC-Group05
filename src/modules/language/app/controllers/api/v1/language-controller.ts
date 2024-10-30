@@ -27,6 +27,9 @@ import {
 import { LanguageModel } from '../../../../domain/models/language-model';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
+import { LanguageModel } from '../../../../domain/models/language-model';
+import { LogicalException } from '../../../../../../exceptions/logical-exception';
+import { ErrorCode } from '../../../../../../exceptions/error-code';
 
 @ApiTags('Language')
 @Controller({ path: 'api/user/v1/language' })
@@ -44,6 +47,7 @@ export class LanguageController {
   @ApiResponse({
     status: 201,
     description: 'Language created successfully',
+    type: LanguageModel,
     type: LanguageModel,
   })
   @ApiResponse({
@@ -74,17 +78,21 @@ export class LanguageController {
   @ApiOperation({ summary: 'Get a language by its ID' })
   @ApiResponse({
     status: HttpStatus.OK,
+    status: HttpStatus.OK,
     description: 'Language found',
+    type: LanguageModel,
     type: LanguageModel,
     type: LanguageModel,
   })
   @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
     description: 'Language not found',
     example: { message: 'Language not found' },
   })
   @ApiParam({
     name: 'language_id',
+    type: Number,
     type: Number,
     description: 'The ID of the language to retrieve',
     required: true,
@@ -102,6 +110,11 @@ export class LanguageController {
         'Language not found',
         undefined,
       );
+      throw new LogicalException(
+        ErrorCode.LANGUAGE_NOT_FOUND,
+        'Language not found',
+        undefined,
+      );
     }
 
     res.json(language);
@@ -113,10 +126,12 @@ export class LanguageController {
   @ApiOperation({ summary: 'Update an existing language' })
   @ApiResponse({
     status: HttpStatus.OK,
+    status: HttpStatus.OK,
     description: 'Language updated successfully',
     example: true,
   })
   @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
     status: HttpStatus.BAD_REQUEST,
     description: 'Language not found',
     example: { message: 'Language not found' },
@@ -126,6 +141,7 @@ export class LanguageController {
     description: 'The ID of the language to update',
     required: true,
 <<<<<<< HEAD
+    type: Number,
     type: Number,
   })
   @ApiBody({
@@ -140,6 +156,10 @@ export class LanguageController {
     type: UpdateLanguageDto,
   })
 >>>>>>> a003b2a (Chery pick)
+  @ApiBody({
+    description: 'Language update details',
+    type: UpdateLanguageDto,
+  })
   @Put('id/:language_id')
   async update(
     @Param() param: GetLanguageParamDto,

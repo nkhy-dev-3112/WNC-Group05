@@ -80,7 +80,6 @@ export class FilmController {
     }
 
     res.status(HttpStatus.OK).json(film.toJson());
-    res.status(HttpStatus.OK).json(film.toJson());
   }
 
   /**
