@@ -3,30 +3,29 @@ import { Transform } from 'class-transformer';
 import { IsInt, IsString, Length } from 'class-validator';
 
 export class ActorDto {
-<<<<<<< HEAD
   @ApiProperty({ example: '1' })
-  @IsInt({ message: 'actor_id must be an integer' })
   @Transform(({ value }) => parseInt(value))
-=======
-  @ApiProperty({ example: 1 })
-  @IsInt()
->>>>>>> a003b2a (Chery pick)
+  @IsInt({ message: 'actor_id must be an integer' })
   actor_id!: number;
 
   @ApiProperty({ example: 'John' })
-  @IsString()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toUpperCase() : value,
+  )
   @Length(1, 45, {
     message: 'First name must be between 1 and 45 characters long.',
   })
-  @Transform(({ value }) => value.trim().toUpperCase())
+  @IsString({ message: 'First name must be string' })
   first_name: string;
 
   @ApiProperty({ example: 'Doe' })
-  @IsString()
   @Length(1, 45, {
     message: 'Last name must be between 1 and 45 characters long.',
   })
-  @Transform(({ value }) => value.trim().toUpperCase())
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.trim().toUpperCase() : value,
+  )
+  @IsString({ message: 'Last name must be string' })
   last_name: string;
 }
 

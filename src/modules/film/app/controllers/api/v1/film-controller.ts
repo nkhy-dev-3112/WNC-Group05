@@ -65,11 +65,12 @@ export class FilmController {
   })
   @Get('id/:film_id')
   async get(@Param() param: GetFilmParamDto, @Res() res: Response) {
-    const film = await this.getFilmUsecase.call(
-      parseInt(param.film_id),
-      undefined,
-      ['categories', 'language', 'original_language', 'actors'],
-    );
+    const film = await this.getFilmUsecase.call(param.film_id, undefined, [
+      'categories',
+      'language',
+      'original_language',
+      'actors',
+    ]);
 
     if (!film) {
       throw new LogicalException(
@@ -121,11 +122,12 @@ export class FilmController {
     @Body() body: UpdateFilmDto,
     @Res() res: Response,
   ) {
-    const film = await this.getFilmUsecase.call(
-      parseInt(param.film_id),
-      undefined,
-      ['categories', 'language', 'original_language', 'actors'],
-    );
+    const film = await this.getFilmUsecase.call(param.film_id, undefined, [
+      'categories',
+      'language',
+      'original_language',
+      'actors',
+    ]);
 
     if (!film) {
       res.status(HttpStatus.NOT_FOUND).json({ message: 'Film not found' });
@@ -220,18 +222,14 @@ export class FilmController {
   ) {
     const [actor, film, filmActor] = await Promise.all([
       this.getActorUsecase.call(
-        parseInt(param.actor_id),
+        param.actor_id,
         undefined,
         undefined,
         undefined,
       ),
-      this.getFilmUsecase.call(parseInt(param.film_id), undefined, undefined),
+      this.getFilmUsecase.call(param.film_id, undefined, undefined),
       this.checkFilmActorExistUsecase.call(
-        new FilmActorModel(
-          parseInt(param.actor_id),
-          parseInt(param.film_id),
-          new Date(),
-        ),
+        new FilmActorModel(param.actor_id, param.film_id, new Date()),
       ),
     ]);
 

@@ -10,6 +10,7 @@ export class CategoryDto {
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   @ApiProperty({ example: 'Scary' })
   name!: string;
 }

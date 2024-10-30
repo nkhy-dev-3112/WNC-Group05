@@ -42,29 +42,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       );
     }
 
-    const logData = {
-      timestamp: new Date().toISOString(),
-      method: request.method,
-      path: request.url,
-      requestBody: request.body,
-      query: request.query,
-      params: request.params,
-      headers: request.headers,
-      responseStatus: httpStatusCode,
-      errorCode: errorException.code,
-      errorMessage: errorException.message,
-    };
-
-    if (httpStatusCode >= 500 && !(exception instanceof HttpException)) {
-      this.logger.error(logData);
-      this.logger.error(exception);
-    } else if (httpStatusCode >= 400 && httpStatusCode < 500) {
-      this.logger.warn(logData);
-    }
+    this.logger.error(exception.message, exception.description);
 
     const sentryContext: CaptureContext = {
       level: httpStatusCode >= 500 ? 'error' : 'warning',
-      extra: logData,
       tags: {
         handled: httpStatusCode < 500 ? 'yes' : 'no',
         url: request.url,
