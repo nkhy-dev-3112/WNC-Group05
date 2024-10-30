@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger';
 import { FilmRating } from '../../domain/enums/film-rating';
 import {
   IsInt,
@@ -9,30 +9,40 @@ import {
   IsEnum,
   IsNumber,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { ActorDto } from '../../../actor/app/dtos/actor-dto';
 
 export class FilmDto {
   @ApiProperty({ example: '1' })
-  @IsString()
-  film_id!: string;
+  @IsInt({ message: 'film_id must be an integer' })
+  @Transform(({ value }) => parseInt(value))
+  film_id!: number;
 
+  @ApiProperty({ example: 'Inception' })
   @IsString()
+  @Transform(({ value }) => value.trim().toUpperCase())
   title: string;
 
+  @ApiProperty({ example: 'A mind-bending thriller', required: false })
   @IsString()
   @IsOptional()
   description?: string;
 
+  @ApiProperty({ example: 2010, required: false })
   @IsInt()
   @IsOptional()
   release_year?: number;
 
+  @ApiProperty({ example: 1 })
   @IsInt()
   language_id!: number;
 
+  @ApiProperty({ example: 2, required: false })
   @IsInt()
   @IsOptional()
   original_language_id?: number;
 
+  @ApiProperty({ example: 3 })
   @IsInt()
   rental_duration!: number;
 
@@ -40,15 +50,18 @@ export class FilmDto {
   @IsNumber()
   rental_rate!: number;
 
+  @ApiProperty({ example: 148, required: false })
   @IsInt()
   @IsOptional()
   length?: number;
 
+  @ApiProperty({ example: 20.0 })
   @IsInt()
   replacement_cost!: number;
 
-  @IsString()
+  @ApiProperty({ example: 'PG-13', enum: FilmRating, required: false })
   @IsOptional()
+  @IsEnum(FilmRating)
   rating?: FilmRating;
 
   @ApiProperty({
@@ -63,11 +76,10 @@ export class FilmDto {
 
 export class GetFilmParamDto extends PickType(FilmDto, ['film_id']) {}
 
-export class CreateFilmActorParamDto extends PickType(FilmDto, ['film_id']) {
-  @ApiProperty({ example: '34' })
-  @IsString()
-  actor_id!: string;
-}
+export class CreateFilmActorParamDto extends PickType(
+  IntersectionType(FilmDto, ActorDto),
+  ['film_id', 'actor_id'],
+) {}
 
 export class UpdateFilmDto extends PickType(FilmDto, [
   'title',

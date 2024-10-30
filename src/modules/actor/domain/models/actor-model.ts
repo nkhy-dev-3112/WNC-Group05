@@ -2,19 +2,39 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { FilmModel } from '../../../film/domain/models/film-model';
 
 export class ActorModel {
-  @ApiProperty({ name: 'actor_id' })
+  @ApiProperty({
+    name: 'actor_id',
+    example: 1,
+    description: 'Unique identifier for the actor',
+  })
   public readonly actorId: number;
 
-  @ApiProperty({ name: 'first_name' })
+  @ApiProperty({
+    name: 'first_name',
+    example: 'John',
+    description: 'First name of the actor',
+  })
   public readonly firstName: string;
 
-  @ApiProperty({ name: 'last_name' })
+  @ApiProperty({
+    name: 'last_name',
+    example: 'Doe',
+    description: 'Last name of the actor',
+  })
   public readonly lastName: string;
 
-  @ApiProperty({ name: 'last_update' })
+  @ApiProperty({
+    name: 'last_update',
+    example: new Date(),
+    description: 'Timestamp of the last update for the actor record',
+  })
   public readonly lastUpdate: Date;
 
-  @ApiPropertyOptional({ name: 'films' })
+  @ApiPropertyOptional({
+    name: 'films',
+    type: [FilmModel],
+    description: 'List of films the actor has participated in',
+  })
   public readonly films: FilmModel[];
 
   constructor(

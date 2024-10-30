@@ -7,10 +7,11 @@ import { CategoryDatasource } from './data/datasources/category-datasource';
 import { CreateCategoryUsecase } from './domain/usecases/create-category-usecase';
 import { GetCategoryUsecase } from './domain/usecases/get-category-usecase';
 import { UpdateCategoryUsecase } from './domain/usecases/update-category-usecase';
+import { CategoryController } from './app/controllers/api/v1/category-controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CategoryEntity])],
-  controllers: [],
+  controllers: [CategoryController],
   providers: [
     {
       provide: CategoryRepository,
