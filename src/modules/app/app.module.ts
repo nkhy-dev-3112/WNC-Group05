@@ -8,6 +8,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
+import { AuthModule } from '../auth/auth-module';
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [database, app] }),
@@ -27,6 +28,7 @@ import { ActorModule } from '../actor/actor.module';
       },
     }),
     forwardRef(() => ActorModule),
+    forwardRef(() => AuthModule),
   ],
   controllers: [AppController],
   providers: [GetInformationUsecase],

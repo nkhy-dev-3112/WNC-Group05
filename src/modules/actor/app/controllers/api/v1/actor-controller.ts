@@ -1,14 +1,22 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { GetActorListUsecase } from '../../../../domain/usecases/get-actor-list-usecase';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { ActorModel } from '../../../../domain/models/actor-model';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
 import { ErrorException } from '../../../../../../exceptions/error-exception';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Actor')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 @Controller({ path: 'api' })
 export class ActorController {
   constructor(private readonly getActorListUsecase: GetActorListUsecase) {}

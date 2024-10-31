@@ -76,6 +76,7 @@ async function setupSwagger(app: INestApplication) {
       '<a href="/api/documentation-json" download="swagger.json">Download JSON</a>',
     )
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
