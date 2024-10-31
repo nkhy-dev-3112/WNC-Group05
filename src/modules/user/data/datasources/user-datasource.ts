@@ -26,6 +26,7 @@ export class UserDatasource {
   public async get(
     id: string | undefined,
     email: string | undefined,
+    password: string | undefined,
   ): Promise<UserModel | undefined> {
     const condition: FindOptionsWhere<UserEntity> = {};
 
@@ -35,6 +36,10 @@ export class UserDatasource {
 
     if (email) {
       condition['email'] = email;
+    }
+
+    if (password) {
+      condition['password'] = password;
     }
 
     return (

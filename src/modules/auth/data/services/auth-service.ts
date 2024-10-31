@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   async login(email: string, password: string) {
-    const user = await this.getUserUsecase.call(undefined, email);
+    const user = await this.getUserUsecase.call(undefined, email, password);
 
     if (!user) {
       throw new ErrorException(
@@ -29,15 +29,30 @@ export class AuthService {
     const authPayload = await this.createAuthPayloadUsecase.call(user.id);
 
     const accessToken = this.jwtService.sign(authPayload.toJson(), {
-      expiresIn: '5s',
+      expiresIn: '1m',
       secret: process.env.JWT_SECRET,
     });
 
     return {
       access_token: accessToken,
       refresh_token: authPayload.id,
-      expires_in: '5s',
+      expires_in: '1m',
     };
+  }
+
+  async isRefreshTokenRevoked(
+    token: string,
+    refreshToken: string,
+  ): Promise<boolean> {
+    const decode = await this.jwtService.decode(token);
+    if (!decode) {
+      throw new ErrorException(
+        ErrorCode.UNAUTHORIZED,
+        'Invalid access token',
+        undefined,
+      );
+    }
+    return refreshToken === decode.id;
   }
 
   async verifyAccessToken(token: string): Promise<boolean> {
@@ -45,7 +60,7 @@ export class AuthService {
       await this.jwtService.verifyAsync(token);
       return true;
     } catch (err) {
-      return false;
+      throw new ErrorException(ErrorCode.UNAUTHORIZED, err.message, undefined);
     }
   }
 
@@ -60,7 +75,7 @@ export class AuthService {
         );
       }
       const accessToken = this.jwtService.sign(authPayload.toJson(), {
-        expiresIn: '5s',
+        expiresIn: '1m',
         secret: process.env.JWT_SECRET,
       });
       return accessToken;

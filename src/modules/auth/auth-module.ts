@@ -1,5 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { AuthService } from './data/services/auth-service';
 import { AuthController } from './app/auth-controller';
 import { ActorModule } from '../actor/actor.module';
@@ -11,14 +11,20 @@ import AuthPayloadEntity from './data/datasources/entities/auth-payload-entity';
 import { UserModule } from '../user/user-module';
 import { AuthPayloadDatasource } from './data/datasources/auth-payload-datasource';
 import { GetAuthPayloadUsecase } from './domain/usecases/auth-payload/get-auth-payload-usecase';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import auth from './config/auth';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [auth],
+    }),
     TypeOrmModule.forFeature([AuthPayloadEntity]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60m' },
-      global: true,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService): any =>
+        configService.get<JwtModuleOptions>('auth.jwt'),
     }),
     forwardRef(() => ActorModule),
     forwardRef(() => UserModule),

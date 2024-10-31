@@ -6,7 +6,6 @@ import { UserRepositoryImpl } from './data/repositories/user-repsitory-impl';
 import { UserDatasource } from './data/datasources/user-datasource';
 import { CreateUserUsecase } from './domain/usecases/create-user-usecase';
 import { GetUserUsecase } from './domain/usecases/get-user-usecase';
-import { ValidateUserUsecase } from './domain/usecases/validate-user-usecase';
 import { AuthModule } from '../auth/auth-module';
 
 @Module({
@@ -23,8 +22,7 @@ import { AuthModule } from '../auth/auth-module';
     UserDatasource,
     CreateUserUsecase,
     GetUserUsecase,
-    ValidateUserUsecase,
   ],
-  exports: [GetUserUsecase, CreateUserUsecase, ValidateUserUsecase],
+  exports: [GetUserUsecase, CreateUserUsecase],
 })
 export class UserModule {}

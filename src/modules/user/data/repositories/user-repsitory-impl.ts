@@ -11,7 +11,11 @@ export class UserRepositoryImpl extends UserRepository {
   public async create(user: UserModel): Promise<void> {
     await this.userDatasource.create(user);
   }
-  public async get(userId: string | undefined, email: string | undefined): Promise<UserModel | undefined> {
-    return this.userDatasource.get(userId, email);
+  public async get(
+    userId: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+  ): Promise<UserModel | undefined> {
+    return this.userDatasource.get(userId, email, password);
   }
 }

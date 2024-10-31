@@ -6,7 +6,11 @@ import { UserModel } from '../models/user-model';
 export class GetUserUsecase {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async call(id: string | undefined, email: string | undefined): Promise<UserModel | undefined> {
-    return await this.userRepository.get(id, email);
+  public async call(
+    id: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+  ): Promise<UserModel | undefined> {
+    return await this.userRepository.get(id, email, password);
   }
 }
