@@ -1,12 +1,14 @@
-import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FilmModel } from '../../../../domain/models/film-model';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
 import { GetFilmListUsecase } from '../../../../domain/usecases/film/get-film-list-usecase';
+import { AuthClientGuard } from '../../../../../auth/guards/auth-client-guard';
 
 @ApiTags('Film')
+@UseGuards(AuthClientGuard)
 @Controller({ path: 'api/filmB' })
 export class FilmController {
   constructor(private readonly getFilmListUsecase: GetFilmListUsecase) {}

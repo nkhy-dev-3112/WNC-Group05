@@ -41,7 +41,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     }
 
     this.logger.error(exception.message, exception.description);
-
     response
       .status(httpStatusCode)
       .setHeader('X-Error-Code', errorException.code)

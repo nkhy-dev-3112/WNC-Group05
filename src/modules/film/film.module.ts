@@ -5,10 +5,14 @@ import { FilmDatasource } from './data/datasources/film-datasource';
 import { FilmRepositoryImpl } from './data/repositories/film-repository-impl';
 import { FilmRepository } from './domain/repositories/film-repository';
 import { GetFilmListUsecase } from './domain/usecases/film/get-film-list-usecase';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
+import { AuthModule } from '../auth/auth-module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([FilmEntity])],
+  imports: [
+    TypeOrmModule.forFeature([FilmEntity]),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [FilmController],
   providers: [
     {
