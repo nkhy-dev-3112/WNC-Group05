@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt/jwt-strategy';
 import { AuthService } from './data/services/auth-service';
 import { AuthController } from './app/auth-controller';
 import { ActorModule } from '../actor/actor.module';
@@ -26,7 +25,6 @@ import { GetAuthPayloadUsecase } from './domain/usecases/auth-payload/get-auth-p
   ],
   providers: [
     AuthService,
-    JwtStrategy,
     {
       provide: AuthPayloadRepository,
       useClass: AuthPayloadRepositoryImpl,
