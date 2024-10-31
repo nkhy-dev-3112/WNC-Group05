@@ -12,11 +12,9 @@ import { ActorModel } from '../../../../domain/models/actor-model';
 import { LogicalException } from '../../../../../../exceptions/logical-exception';
 import { ErrorCode } from '../../../../../../exceptions/error-code';
 import { ErrorException } from '../../../../../../exceptions/error-exception';
-import { JwtAuthGuard } from '../../../../../auth/jwt/jwt-auth-guard';
 
 @ApiTags('Actor')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller({ path: 'api' })
 export class ActorController {
   constructor(private readonly getActorListUsecase: GetActorListUsecase) {}

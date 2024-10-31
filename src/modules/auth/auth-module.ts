@@ -1,8 +1,4 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt/jwt-strategy';
-import { AuthService } from './data/services/auth-service';
-import { AuthController } from './app/auth-controller';
 import { ActorModule } from '../actor/actor.module';
 import { AuthPayloadRepository } from './domain/repositories/auth-payload-repository';
 import { AuthPayloadRepositoryImpl } from './data/repositories/auth-payload-repository-impl';
@@ -16,17 +12,11 @@ import { GetAuthPayloadUsecase } from './domain/usecases/auth-payload/get-auth-p
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthPayloadEntity]),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '60m' },
-      global: true,
-    }),
+
     forwardRef(() => ActorModule),
     forwardRef(() => UserModule),
   ],
   providers: [
-    AuthService,
-    JwtStrategy,
     {
       provide: AuthPayloadRepository,
       useClass: AuthPayloadRepositoryImpl,
@@ -35,7 +25,7 @@ import { GetAuthPayloadUsecase } from './domain/usecases/auth-payload/get-auth-p
     CreateAuthPayloadUsecase,
     GetAuthPayloadUsecase,
   ],
-  controllers: [AuthController],
-  exports: [AuthService],
+  controllers: [],
+  exports: [],
 })
 export class AuthModule {}
