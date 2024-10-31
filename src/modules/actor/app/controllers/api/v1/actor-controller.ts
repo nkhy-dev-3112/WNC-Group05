@@ -57,12 +57,16 @@ export class ActorController {
         `http://localhost:${process.env.APP_PORT_B}/api/filmB`,
         {
           method: 'GET',
+          headers: {
+            'x-client-id': process.env.SERVERB_CLIENT_ID,
+            'x-client-secret': process.env.SERVERB_CLIENT_SECRET,
+          },
         },
       );
 
-      if (response.status === HttpStatus.FORBIDDEN) {
+      if (response.status === HttpStatus.UNAUTHORIZED) {
         throw new ErrorException(
-          ErrorCode.FORBIDDEN_ERROR,
+          ErrorCode.UNAUTHORIZED,
           'Can not access server B without identifying',
           undefined,
         );
