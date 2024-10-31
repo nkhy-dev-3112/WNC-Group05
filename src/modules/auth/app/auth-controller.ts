@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
 import { LoginDto } from './auth-dto';
-import { AuthService } from './auth-service';
+import { AuthService } from '../data/services/auth-service';
 import { ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { Response } from 'express';
 
@@ -12,7 +12,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Res() res: Response) {
     const tokens = await this.authService.login(
-      loginDto.username,
+      loginDto.email,
       loginDto.password,
     );
     res.json(tokens);

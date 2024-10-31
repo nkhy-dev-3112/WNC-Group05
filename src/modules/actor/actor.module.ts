@@ -6,9 +6,13 @@ import { ActorRepository } from './domain/repositories/actor-repository';
 import { ActorRepositoryImpl } from './data/repositories/actor-repository-impl';
 import { ActorDatasource } from './data/datasource/actor-datasource';
 import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
+import { AuthModule } from '../auth/auth-module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ActorEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ActorEntity]),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [ActorController],
   providers: [
     {
