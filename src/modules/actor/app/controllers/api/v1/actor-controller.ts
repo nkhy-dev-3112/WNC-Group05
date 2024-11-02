@@ -53,28 +53,7 @@ export class ActorController {
     try {
       const response = await fetch(
         `http://localhost:${process.env.APP_PORT_B}/api/filmB`,
-        {
-          method: 'GET',
-          headers: {
-            'x-client-id': process.env.SERVERB_CLIENT_ID,
-            'x-client-secret': process.env.SERVERB_CLIENT_SECRET,
-          },
-        },
       );
-
-      if (response.status === HttpStatus.UNAUTHORIZED) {
-        throw new ErrorException(
-          ErrorCode.UNAUTHORIZED,
-          'Can not access server B without identifying',
-          undefined,
-        );
-      } else if (response.status === HttpStatus.BAD_REQUEST) {
-        throw new ErrorException(
-          ErrorCode.UNDEFINED_ERROR,
-          `Can not access server B with status code ${response.status}`,
-          undefined,
-        );
-      }
 
       const data = await response.json();
 
