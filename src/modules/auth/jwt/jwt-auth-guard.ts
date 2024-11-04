@@ -16,17 +16,31 @@ export class JwtAuthGuard implements CanActivate {
     if (!token) return false;
 
     try {
-      if (
-        refreshToken &&
-        (await this.authService.isRefreshTokenRevoked(token, refreshToken))
-      ) {
-        token = await this.authService.refreshToken(refreshToken);
-        request.headers['authorization'] = `Bearer ${token}`;
-      }
-
       return await this.authService.verifyAccessToken(token);
     } catch (err) {
-      throw new ErrorException(ErrorCode.UNAUTHORIZED, err.message, undefined);
+      if (err.name === 'TokenExpiredError') {
+        try {
+          if (
+            refreshToken &&
+            (await this.authService.isRefreshTokenRevoked(token, refreshToken))
+          ) {
+            token = await this.authService.refreshToken(refreshToken);
+            request.headers['authorization'] = `Bearer ${token}`;
+          }
+        } catch (error) {
+          throw new ErrorException(
+            ErrorCode.UNAUTHORIZED,
+            error.message,
+            undefined,
+          );
+        }
+      } else {
+        throw new ErrorException(
+          ErrorCode.UNAUTHORIZED,
+          err.message,
+          undefined,
+        );
+      }
     }
   }
 }
