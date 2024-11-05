@@ -18,7 +18,7 @@ export class JwtAuthGuard implements CanActivate {
     try {
       return await this.authService.verifyAccessToken(token);
     } catch (err) {
-      if (err.name === 'TokenExpiredError') {
+      if (err.message === 'jwt expired') {
         try {
           if (
             refreshToken &&
@@ -26,7 +26,9 @@ export class JwtAuthGuard implements CanActivate {
           ) {
             token = await this.authService.refreshToken(refreshToken);
             request.headers['authorization'] = `Bearer ${token}`;
+            return true;
           }
+          return false;
         } catch (error) {
           throw new ErrorException(
             ErrorCode.UNAUTHORIZED,
