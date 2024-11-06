@@ -1,6 +1,6 @@
-import { MigrationInterface, QueryRunner, Table, TableUnique } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class AuthPayloads1720163757685 implements MigrationInterface {
+export class AuthPayload1730816642340 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({

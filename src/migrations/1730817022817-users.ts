@@ -1,39 +1,21 @@
 import { MigrationInterface, QueryRunner, Table, TableUnique } from 'typeorm';
 
-export class Users1729936532616 implements MigrationInterface {
+export class Users1730817022817 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
         name: 'users',
         columns: [
-          {
-            name: 'id',
-            type: 'varchar',
-            isPrimary: true,
-            length: '255',
-          },
-          {
-            name: 'email',
-            type: 'varchar',
-            isNullable: false,
-            length: '255',
-          },
+          { name: 'id', type: 'varchar', isPrimary: true, length: '255' },
+          { name: 'email', type: 'varchar', isNullable: false, length: '255' },
           {
             name: 'password',
             type: 'varchar',
             isNullable: false,
             length: '255',
           },
-          {
-            name: 'created_at',
-            type: 'timestamp',
-            isNullable: false,
-          },
-          {
-            name: 'updated_at',
-            type: 'timestamp',
-            isNullable: false,
-          },
+          { name: 'created_at', type: 'timestamp', isNullable: false },
+          { name: 'updated_at', type: 'timestamp', isNullable: false },
         ],
       }),
     );
@@ -45,7 +27,6 @@ export class Users1729936532616 implements MigrationInterface {
         columnNames: ['email'],
       }),
     );
-
     // Insert a user
     await queryRunner.query(`
       INSERT INTO users (id, email, password, created_at, updated_at)

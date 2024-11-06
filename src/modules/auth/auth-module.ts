@@ -10,6 +10,10 @@ import { AuthPayloadDatasource } from './data/datasources/auth-payload-datasourc
 import { GetAuthPayloadUsecase } from './domain/usecases/auth-payload/get-auth-payload-usecase';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import auth from './config/auth';
+import { JwtAuthGuard } from './jwt/jwt-auth-guard';
+import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
+import { AuthService } from './data/services/auth-service';
+import { AuthController } from './app/auth-controller';
 
 @Module({
   imports: [
@@ -17,10 +21,17 @@ import auth from './config/auth';
       load: [auth],
     }),
     TypeOrmModule.forFeature([AuthPayloadEntity]),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService): any =>
+        configService.get<JwtModuleOptions>('auth.jwt'),
+    }),
     forwardRef(() => ActorModule),
     forwardRef(() => UserModule),
   ],
   providers: [
+    AuthService,
     {
       provide: AuthPayloadRepository,
       useClass: AuthPayloadRepositoryImpl,
@@ -29,7 +40,7 @@ import auth from './config/auth';
     CreateAuthPayloadUsecase,
     GetAuthPayloadUsecase,
   ],
-  controllers: [],
-  exports: [],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

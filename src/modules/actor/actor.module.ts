@@ -7,6 +7,7 @@ import { ActorRepositoryImpl } from './data/repositories/actor-repository-impl';
 import { ActorDatasource } from './data/datasource/actor-datasource';
 import { GetActorListUsecase } from './domain/usecases/get-actor-list-usecase';
 import { AuthModule } from '../auth/auth-module';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth-guard';
 
 @Module({
   imports: [
