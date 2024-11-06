@@ -44,15 +44,15 @@ export class AuthService {
     token: string,
     refreshToken: string,
   ): Promise<boolean> {
-    const decode = await this.jwtService.decode(token);
-    if (!decode) {
+    const authpayload = await this.jwtService.decode(token);
+    if (!authpayload) {
       throw new ErrorException(
         ErrorCode.UNAUTHORIZED,
         'Invalid access token',
         undefined,
       );
     }
-    return refreshToken === decode.id;
+    return refreshToken === authpayload.id;
   }
 
   async verifyAccessToken(token: string): Promise<boolean> {
