@@ -9,6 +9,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { ActorModule } from '../actor/actor.module';
 import { AuthModule } from '../auth/auth-module';
+import { FilmModule } from '../film/film.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ load: [database, app] }),
@@ -28,6 +29,7 @@ import { AuthModule } from '../auth/auth-module';
       },
     }),
     forwardRef(() => ActorModule),
+    forwardRef(() => FilmModule),
     forwardRef(() => AuthModule),
   ],
   controllers: [AppController],
