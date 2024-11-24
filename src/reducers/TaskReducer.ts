@@ -32,6 +32,7 @@ export const TaskReducer = (
           state.tasks.filter((task) => task.id !== action.payload)
         ),
       };
+
     case TaskActionType.EDIT_TASK_NAME:
       return {
         ...state,
@@ -41,6 +42,12 @@ export const TaskReducer = (
             : task
         ),
       };
+
+    case TaskActionType.SET_FILTER:
+      return { ...state, filter: action.payload };
+
+    case TaskActionType.REMOVE_ALL_TASKS:
+      return { ...state, tasks: [] };
     default:
       return state;
   }

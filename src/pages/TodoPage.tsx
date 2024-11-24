@@ -6,6 +6,7 @@ import Title from "antd/es/typography/Title";
 import { useTask } from "../hooks/useTask";
 import { useEffect } from "react";
 import { TaskActionType } from "../enums/TaskActionType";
+import { Task } from "../models/Task";
 
 const TodoPage: React.FC = () => {
   const { state, dispatch } = useTask();
@@ -37,7 +38,14 @@ const TodoPage: React.FC = () => {
       payload: { id, name: newName },
     });
   };
-  console.log(state.tasks);
+
+  const filteredTasks = state.tasks.filter((task: Task) =>
+    task.name.toLowerCase().includes(state.filter.toLowerCase())
+  );
+
+  const removeAllTasks = () => {
+    dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
+  };
   return (
     <div
       style={{ maxWidth: "600px", margin: "50px auto", textAlign: "center" }}
@@ -51,12 +59,12 @@ const TodoPage: React.FC = () => {
       <FilterTask />
       <AddTask addTask={addTask} />
       <TaskList
-        tasks={state.tasks}
+        tasks={filteredTasks}
         toggleComplete={toggleComplete}
         editTaskName={editTaskName}
         removeTask={removeTask}
       />
-      <Button danger type="link">
+      <Button danger type="link" onClick={removeAllTasks}>
         Remove All Tasks
       </Button>
     </div>
