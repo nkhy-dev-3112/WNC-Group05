@@ -1,14 +1,7 @@
-import { Layout } from "antd";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import TodoPage from "./pages/TodoPage";
 
 const App: React.FC = () => {
-  return (
-    <Layout>
-      <Header>This is header</Header>
-      <Content>This is content</Content>
-      <Footer>This is footer</Footer>
-    </Layout>
-  );
+  return <TodoPage />;
 };
 
 export default App;
