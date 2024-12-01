@@ -1,9 +1,9 @@
-import { Button, Checkbox, Input, List } from "antd";
+import React, { useState } from "react";
+import { List, Checkbox, Button, Input } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { TaskListProps } from "../props/TaskListProps";
-import { useState } from "react";
 
-const TaskList: React.FC<TaskListProps> = ({
+export const TaskList: React.FC<TaskListProps> = ({
   tasks,
   toggleComplete,
   removeTask,
@@ -20,8 +20,8 @@ const TaskList: React.FC<TaskListProps> = ({
   const handleSaveEdit = (taskId: number) => {
     if (newTaskName.trim()) {
       editTaskName(taskId, newTaskName);
-      setEditingTaskId(null);
-      setNewTaskName("");
+      setEditingTaskId(null); // Exit edit mode
+      setNewTaskName(""); // Clear the input field
     }
   };
 
@@ -34,8 +34,8 @@ const TaskList: React.FC<TaskListProps> = ({
           actions={[
             <Button
               type="link"
-              danger
               icon={<DeleteOutlined />}
+              danger
               onClick={() => removeTask(task.id)}
             />,
             editingTaskId === task.id ? null : (
@@ -56,7 +56,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
                 onPressEnter={() => handleSaveEdit(task.id)}
-                onBlur={() => handleSaveEdit(task.id)}
+                onBlur={() => handleSaveEdit(task.id)} // Save on blur for better UX
                 autoFocus
               />
             ) : (
@@ -75,4 +75,5 @@ const TaskList: React.FC<TaskListProps> = ({
     />
   );
 };
+
 export default TaskList;

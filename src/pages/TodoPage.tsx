@@ -1,15 +1,16 @@
-import { Button } from "antd";
+import React, { useEffect } from "react";
+import { Typography, Button } from "antd";
+import TaskList from "../components/TaskList";
 import AddTask from "../components/AddTask";
 import FilterTask from "../components/FilterTask";
-import TaskList from "../components/TaskList";
-import Title from "antd/es/typography/Title";
 import { useTask } from "../hooks/useTask";
-import { useEffect } from "react";
 import { TaskActionType } from "../enums/TaskActionType";
-import { Task } from "../models/Task";
+
+const { Title } = Typography;
 
 const TodoPage: React.FC = () => {
   const { state, dispatch } = useTask();
+
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(state.tasks));
   }, state.tasks);
@@ -32,6 +33,15 @@ const TodoPage: React.FC = () => {
   const removeTask = (id: number) => {
     dispatch({ type: TaskActionType.REMOVE_TASK, payload: id });
   };
+
+  const removeAllTasks = () => {
+    dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
+  };
+
+  const filteredTasks = state.tasks.filter((task: any) =>
+    task.name.toLowerCase().includes(state.filter.toLowerCase())
+  );
+
   const editTaskName = (id: number, newName: string) => {
     dispatch({
       type: TaskActionType.EDIT_TASK_NAME,
@@ -39,32 +49,31 @@ const TodoPage: React.FC = () => {
     });
   };
 
-  const filteredTasks = state.tasks.filter((task: Task) =>
-    task.name.toLowerCase().includes(state.filter.toLowerCase())
-  );
-
-  const removeAllTasks = () => {
-    dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
-  };
   return (
     <div
       style={{ maxWidth: "600px", margin: "50px auto", textAlign: "center" }}
     >
-      <Title
-        level={2}
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        Todo App
-      </Title>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Title level={2}>Todo App</Title>
+      </div>
+
       <FilterTask />
+
       <AddTask addTask={addTask} />
+
       <TaskList
         tasks={filteredTasks}
         toggleComplete={toggleComplete}
-        editTaskName={editTaskName}
         removeTask={removeTask}
+        editTaskName={editTaskName}
       />
-      <Button danger type="link" onClick={removeAllTasks}>
+
+      <Button
+        type="link"
+        style={{ marginTop: "20px" }}
+        onClick={removeAllTasks}
+        danger
+      >
         Remove All Tasks
       </Button>
     </div>

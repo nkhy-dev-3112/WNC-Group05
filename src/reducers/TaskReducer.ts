@@ -10,6 +10,9 @@ export const TaskReducer = (
     tasks.sort((a, b) => Number(a.completed) - Number(b.completed));
 
   switch (action.type) {
+    case TaskActionType.SET_FILTER:
+      return { ...state, filter: action.payload };
+
     case TaskActionType.ADD_TASK:
       return { ...state, tasks: sortTasks([...state.tasks, action.payload]) };
 
@@ -33,6 +36,9 @@ export const TaskReducer = (
         ),
       };
 
+    case TaskActionType.REMOVE_ALL_TASKS:
+      return { ...state, tasks: [] };
+
     case TaskActionType.EDIT_TASK_NAME:
       return {
         ...state,
@@ -42,12 +48,6 @@ export const TaskReducer = (
             : task
         ),
       };
-
-    case TaskActionType.SET_FILTER:
-      return { ...state, filter: action.payload };
-
-    case TaskActionType.REMOVE_ALL_TASKS:
-      return { ...state, tasks: [] };
     default:
       return state;
   }

@@ -1,8 +1,9 @@
+import React from "react";
 import { Input } from "antd";
 import { TaskActionType } from "../enums/TaskActionType";
 import { useTask } from "../hooks/useTask";
 
-const FilterTask = () => {
+const FilterTask: React.FC = () => {
   const { state, dispatch } = useTask();
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: TaskActionType.SET_FILTER, payload: e.target.value });
@@ -10,10 +11,11 @@ const FilterTask = () => {
 
   return (
     <Input
-      placeholder="Filter task"
+      placeholder="Filter tasks by name"
       value={state.filter}
       onChange={handleFilterChange}
-    ></Input>
+      style={{ marginBottom: "20px" }}
+    />
   );
 };
 
