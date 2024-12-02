@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Input, Button } from "antd";
-import { AddTaskProps } from "../props/AddTaskProps";
+import { useTask } from "../hooks/useTask";
 
-const AddTask: React.FC<AddTaskProps> = ({ addTask }) => {
+const AddTask: React.FC = () => {
   const [taskName, setTaskName] = useState<string>("");
+  const { addTask } = useTask();
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       addTask(taskName);

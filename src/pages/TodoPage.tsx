@@ -13,18 +13,18 @@ const TodoPage: React.FC = () => {
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(state.tasks));
-  }, state.tasks);
+  }, [state.tasks]);
 
-  const addTask = (taskName: string) => {
-    if (taskName.trim()) {
-      const newTask = {
-        id: Date.now(),
-        name: taskName,
-        completed: false,
-      };
-      dispatch({ type: TaskActionType.ADD_TASK, payload: newTask });
-    }
-  };
+  // const addTask = (taskName: string) => {
+  //   if (taskName.trim()) {
+  //     const newTask = {
+  //       id: Date.now(),
+  //       name: taskName,
+  //       completed: false,
+  //     };
+  //     dispatch({ type: TaskActionType.ADD_TASK, payload: newTask });
+  //   }
+  // };
 
   const toggleComplete = (id: number) => {
     dispatch({ type: TaskActionType.TOGGLE_COMPLETE, payload: id });
@@ -59,7 +59,7 @@ const TodoPage: React.FC = () => {
 
       <FilterTask />
 
-      <AddTask addTask={addTask} />
+      <AddTask />
 
       <TaskList
         tasks={filteredTasks}
