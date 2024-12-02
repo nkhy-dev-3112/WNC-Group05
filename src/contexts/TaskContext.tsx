@@ -26,8 +26,37 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
       dispatch({ type: TaskActionType.ADD_TASK, payload: newTask });
     }
   };
+  const editTaskName = (id: number, newName: string) => {
+    dispatch({
+      type: TaskActionType.EDIT_TASK_NAME,
+      payload: { id, name: newName },
+    });
+  };
+
+  const toggleComplete = (id: number) => {
+    dispatch({ type: TaskActionType.TOGGLE_COMPLETE, payload: id });
+  };
+
+  const removeTask = (id: number) => {
+    dispatch({ type: TaskActionType.REMOVE_TASK, payload: id });
+  };
+
+  const removeAllTasks = () => {
+    dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
+  };
+
   return (
-    <TaskContext.Provider value={{ state, dispatch, addTask }}>
+    <TaskContext.Provider
+      value={{
+        state,
+        dispatch,
+        addTask,
+        editTaskName,
+        removeTask,
+        removeAllTasks,
+        toggleComplete,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

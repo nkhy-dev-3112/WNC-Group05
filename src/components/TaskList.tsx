@@ -1,35 +1,36 @@
 import React, { useState } from "react";
 import { List, Checkbox, Button, Input } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { TaskListProps } from "../props/TaskListProps";
+import { useTask } from "../hooks/useTask";
+import { Task } from "../models/Task";
 
-export const TaskList: React.FC<TaskListProps> = ({
-  tasks,
-  toggleComplete,
-  removeTask,
-  editTaskName,
-}) => {
+export const TaskList: React.FC = () => {
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [newTaskName, setNewTaskName] = useState<string>("");
+  const { state, editTaskName, removeTask, toggleComplete } = useTask();
+  const { tasks, filter } = state;
 
   const handleEdit = (taskId: number, currentName: string) => {
     setEditingTaskId(taskId);
     setNewTaskName(currentName);
   };
-
-  const handleSaveEdit = (taskId: number) => {
+  const handleSaveEdit = (id: number) => {
     if (newTaskName.trim()) {
-      editTaskName(taskId, newTaskName);
-      setEditingTaskId(null); // Exit edit mode
-      setNewTaskName(""); // Clear the input field
+      editTaskName(id, newTaskName);
+      setEditingTaskId(null);
+      setNewTaskName("");
     }
   };
+
+  const filteredTasks = tasks.filter((task: Task) =>
+    task.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <List
       bordered
-      dataSource={tasks}
-      renderItem={(task) => (
+      dataSource={filteredTasks}
+      renderItem={(task: Task) => (
         <List.Item
           actions={[
             <Button
@@ -77,3 +78,6 @@ export const TaskList: React.FC<TaskListProps> = ({
 };
 
 export default TaskList;
+function editTaskName(id: number, newTaskName: string) {
+  throw new Error("Function not implemented.");
+}

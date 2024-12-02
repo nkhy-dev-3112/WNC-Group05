@@ -1,7 +1,7 @@
 import React from "react";
 import { Input } from "antd";
-import { TaskActionType } from "../enums/TaskActionType";
 import { useTask } from "../hooks/useTask";
+import { TaskActionType } from "../enums/TaskActionType";
 
 const FilterTask: React.FC = () => {
   const { state, dispatch } = useTask();

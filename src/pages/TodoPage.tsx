@@ -4,12 +4,11 @@ import TaskList from "../components/TaskList";
 import AddTask from "../components/AddTask";
 import FilterTask from "../components/FilterTask";
 import { useTask } from "../hooks/useTask";
-import { TaskActionType } from "../enums/TaskActionType";
 
 const { Title } = Typography;
 
 const TodoPage: React.FC = () => {
-  const { state, dispatch } = useTask();
+  const { state, removeAllTasks } = useTask();
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(state.tasks));
@@ -26,28 +25,28 @@ const TodoPage: React.FC = () => {
   //   }
   // };
 
-  const toggleComplete = (id: number) => {
-    dispatch({ type: TaskActionType.TOGGLE_COMPLETE, payload: id });
-  };
+  // const toggleComplete = (id: number) => {
+  //   dispatch({ type: TaskActionType.TOGGLE_COMPLETE, payload: id });
+  // };
 
-  const removeTask = (id: number) => {
-    dispatch({ type: TaskActionType.REMOVE_TASK, payload: id });
-  };
+  // const removeTask = (id: number) => {
+  //   dispatch({ type: TaskActionType.REMOVE_TASK, payload: id });
+  // };
 
-  const removeAllTasks = () => {
-    dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
-  };
+  // const removeAllTasks = () => {
+  //   dispatch({ type: TaskActionType.REMOVE_ALL_TASKS });
+  // };
 
-  const filteredTasks = state.tasks.filter((task: any) =>
-    task.name.toLowerCase().includes(state.filter.toLowerCase())
-  );
+  // const filteredTasks = state.tasks.filter((task: any) =>
+  //   task.name.toLowerCase().includes(state.filter.toLowerCase())
+  // );
 
-  const editTaskName = (id: number, newName: string) => {
-    dispatch({
-      type: TaskActionType.EDIT_TASK_NAME,
-      payload: { id, name: newName },
-    });
-  };
+  // const editTaskName = (id: number, newName: string) => {
+  //   dispatch({
+  //     type: TaskActionType.EDIT_TASK_NAME,
+  //     payload: { id, name: newName },
+  //   });
+  // };
 
   return (
     <div
@@ -61,12 +60,7 @@ const TodoPage: React.FC = () => {
 
       <AddTask />
 
-      <TaskList
-        tasks={filteredTasks}
-        toggleComplete={toggleComplete}
-        removeTask={removeTask}
-        editTaskName={editTaskName}
-      />
+      <TaskList />
 
       <Button
         type="link"
