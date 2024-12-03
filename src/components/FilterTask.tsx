@@ -1,13 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Input } from "antd";
-import { useTask } from "../hooks/useTask";
-import { TaskActionType } from "../enums/TaskActionType";
+import TaskContext from "../contexts/TaskContext";
 
 const FilterTask: React.FC = () => {
-  const { state, dispatch } = useTask();
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: TaskActionType.SET_FILTER, payload: e.target.value });
-  };
+  const { state, handleFilterChange } = useContext(TaskContext);
 
   return (
     <Input

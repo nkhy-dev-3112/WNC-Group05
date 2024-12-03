@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Input, Button } from "antd";
-import { useTask } from "../hooks/useTask";
+import TaskContext from "../contexts/TaskContext";
 
 const AddTask: React.FC = () => {
   const [taskName, setTaskName] = useState<string>("");
-  const { addTask } = useTask();
+
+  const { addTask } = useContext(TaskContext);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       addTask(taskName);
       setTaskName("");
     }
   };
+  
   const handleAddTask = () => {
     addTask(taskName);
     setTaskName("");

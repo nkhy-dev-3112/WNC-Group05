@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { List, Checkbox, Button, Input } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { useTask } from "../hooks/useTask";
-import { Task } from "../models/Task";
+import { Task } from "../types";
+import TaskContext from "../contexts/TaskContext";
 
-export const TaskList: React.FC = () => {
+const TaskList: React.FC = () => {
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [newTaskName, setNewTaskName] = useState<string>("");
-  const { state, editTaskName, removeTask, toggleComplete } = useTask();
+  const { state, editTaskName, removeTask, toggleComplete } = useContext(TaskContext);
   const { tasks, filter } = state;
 
   const handleEdit = (taskId: number, currentName: string) => {
     setEditingTaskId(taskId);
     setNewTaskName(currentName);
   };
+
   const handleSaveEdit = (id: number) => {
     if (newTaskName.trim()) {
       editTaskName(id, newTaskName);
@@ -57,7 +58,7 @@ export const TaskList: React.FC = () => {
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
                 onPressEnter={() => handleSaveEdit(task.id)}
-                onBlur={() => handleSaveEdit(task.id)} // Save on blur for better UX
+                onBlur={() => handleSaveEdit(task.id)}
                 autoFocus
               />
             ) : (
@@ -78,6 +79,3 @@ export const TaskList: React.FC = () => {
 };
 
 export default TaskList;
-function editTaskName(id: number, newTaskName: string) {
-  throw new Error("Function not implemented.");
-}

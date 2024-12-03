@@ -1,6 +1,6 @@
-import { TaskAction } from "../actions/TaskAction";
-import { TaskActionType } from "../enums/TaskActionType";
-import { TaskState } from "../states/TaskState";
+import { TaskAction } from "./actions";
+import { TaskActionType } from "./actionTypes";
+import { TaskState } from "../types";
 
 export const TaskReducer = (
   state: TaskState,
